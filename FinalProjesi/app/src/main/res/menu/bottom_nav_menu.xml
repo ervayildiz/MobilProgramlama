@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_ana_sayfa"
+        android:icon="@drawable/ic_home"
+        android:title="@string/ana_sayfa" />  <!-- strings.xml'den referans -->
+    <item
+        android:id="@+id/nav_kategoriler"
+        android:icon="@drawable/ic_category"
+        android:title="@string/kategoriler" />  <!-- strings.xml'den referans -->
+    <item
+        android:id="@+id/nav_kaydedilenler"
+        android:icon="@drawable/ic_favorite"
+        android:title="@string/kaydedilenler" />  <!-- strings.xml'den referans -->
+    <item
+        android:id="@+id/nav_arama"
+        android:icon="@drawable/ic_search"
+        android:title="@string/arama" />  <!-- strings.xml'den referans -->
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/profil" />  <!-- strings.xml'den referans -->
+</menu>

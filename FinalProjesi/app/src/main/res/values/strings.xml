@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Tarif</string>
+    <string name="ana_sayfa">Ana Sayfa</string>
+    <string name="kategoriler">Kategoriler</string>
+    <string name="kaydedilenler">Kaydedilenler</string>
+    <string name="arama">Arama</string>
+    <string name="profil">Profil</string>
+</resources>
