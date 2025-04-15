@@ -1,8 +1,90 @@
 <resources>
-    <string name="app_name">Tarif</string>
+    <string name="app_name">The Kitchen</string>
     <string name="ana_sayfa">Ana Sayfa</string>
     <string name="kategoriler">Kategoriler</string>
     <string name="kaydedilenler">Kaydedilenler</string>
     <string name="arama">Arama</string>
     <string name="profil">Profil</string>
+    <string name="login_title">Giriş Yap</string>
+    <string name="register_title">Kayıt Ol</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Şifre</string>
+    <string name="hint_name">Ad Soyad</string>
+    <string name="hint_confirm_password">Şifre Tekrar</string>
+    <string name="btn_login">Giriş Yap</string>
+    <string name="btn_register">Kayıt Ol</string>
+    <string name="switch_to_register">Hesabınız yok mu? Kayıt Olun</string>
+    <string name="switch_to_login">Zaten hesabınız var mı? Giriş Yapın</string>
+    <string name="error_empty_fields">Lütfen tüm alanları doldurun</string>
+    <string name="error_password_mismatch">Şifreler uyuşmuyor</string>
+    <string name="verify_email">Email doğrulanmadı. Doğrulama linki gönder</string>
+    <string name="change_password">Şifre Değiştir</string>
+    <string name="logout">Çıkış Yap</string>
+    <string name="password_changed">Şifre başarıyla değiştirildi</string>
+    <string name="verification_email_sent">Doğrulama emaili gönderildi. Lütfen emailinizi kontrol edin.</string>
+    <string name="new_password_hint">Yeni Şifre</string>
+    <string name="confirm_password_hint">Yeni Şifre Tekrar</string>
+    <string name="change_password_button">Şifreyi Değiştir</string>
+    <string name="password_change_success">Şifre başarıyla değiştirildi</string>
+    <string name="password_change_failed">Şifre değiştirilemedi</string>
+    <string name="btn_save_changes">Kaydet</string>
+    <string name="no_saved_recipes">Henüz kayıtlı tarifiniz yok</string>
+    <string name="current_name">Mevcut isim: %s</string>
+    <string name="greeting_message">Merhaba, %s!</string>
+    <string name="btnBookmark">Save</string>
+
+    <!-- Tarif Detay Ekranı için Eklenen Stringler -->
+    <string name="recipe_image">Tarif Görseli</string>
+    <string name="ingredients">Malzemeler</string>
+    <string name="steps">Yapılış</string>
+    <string name="save_recipe">Tarifi Kaydet</string>
+    <string name="recipe_saved">Tarif kaydedildi</string>
+    <string name="recipe_removed">Kayıt kaldırıldı</string>
+    <string name="save_changes">Değişiklikleri Kaydet</string>
+
+    <string name="welcome_message">Merhaba, %s!</string>
+    <string name="logout_button">Çıkış Yap</string>
+
+        <string name="app_logo_desc">Uygulama logosu</string>
+
+        <string name="email_hint">Email</string>
+        <string name="password_hint">Password</string>
+        <string name="forgot_password">Forgot password?</string>
+        <string name="login_button">LOGIN</string>
+        <string name="explore_app">Explore the app</string>
+        <string name="register_prompt">Don\'t have account? Register</string>
+
+    <string name="welcome_message_format">Merhaba, %s!</string>
+    <string name="search_hint">Tarif ara...</string>
+    <string name="categories_title">Kategoriler</string>
+    <string name="try_these_title">Bunları Denemelisin!</string>
+    <string name="my_bookmarks_title">Bookmark\'larım</string>
+    <string name="data_load_error">Veri yükleme hatası: %s</string>
+    <string name="bookmark_load_error">Bookmark yükleme hatası: %s</string>
+
+    <string name="w_message">Hoş Geldiniz</string>
+    <string name="welcome_message_desc">Kullanıcıyı karşılayan hoşgeldin mesajı</string>
+    <string name="search_content_desc">Tarif arama alanı</string>
+    <string name="search_example">Örn: Tavuklu makarna</string>
+
+    <string name="categories_desc">Yemek kategorileri listesi</string>
+    <string name="categories_scroll_desc">Yatay kaydırılabilir kategori listesi</string>
+    <string name="recommended_title">Önerilen Tarifler</string>
+    <string name="bookmarked_title">Kayıtlı Tarifler</string>
+    <string name="error_load_recommended">Önerilen tarifler yüklenemedi</string>
+    <string name="error_load_bookmarked">Kayıtlı tarifler yüklenemedi</string>
+    <string name="save">Save</string>
+
+    <string-array name="kategoriler">
+        <item>Tümü</item>
+        <item>Kahvaltı</item>
+        <item>Ana Yemek</item>
+        <item>Tatlı</item>
+        <item>Salata</item>
+        <item>Çorba</item>
+        <item>Atıştırmalık</item>
+
+
+    </string-array>
+
 </resources>

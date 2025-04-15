@@ -3,13 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:gravity="center"
     android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/imageViewIkon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_atistirmalik" />
 
     <TextView
         android:id="@+id/textViewIsim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kategori İsmi"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"/>
 </LinearLayout>

@@ -2,62 +2,83 @@ package com.example.tarif;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class TarifListesiActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TarifAdapter tarifAdapter;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tarif_listesi);
 
+        // Firebase Database referansı
+        databaseReference = FirebaseDatabase.getInstance().getReference("tarifler");
+
+        // RecyclerView ayarları
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Intent'ten kategori bilgisini al
-        Intent intent = getIntent();
-        String kategori = intent.getStringExtra("kategori");
-
-        // Kategoriye ait tarifleri filtrele
-        List<Tarif> filteredTarifList = filterTariflerByKategori(kategori);
-
-        // RecyclerView için adapter ayarla
-        tarifAdapter = new TarifAdapter(this, filteredTarifList, tarif -> {
-            // TarifDetayActivity'yi başlat ve tarif bilgilerini gönder
-            Intent detailIntent = new Intent(TarifListesiActivity.this, TarifDetayActivity.class);
-            detailIntent.putExtra("tarif", tarif);
-            startActivity(detailIntent);
-        });
-        recyclerView.setAdapter(tarifAdapter);
-    }
-
-    // Kategoriye göre tarifleri filtrele
-    private List<Tarif> filterTariflerByKategori(String kategori) {
-        List<Tarif> allTarifler = getSampleTarifList(); // Tüm tarifleri al
-        List<Tarif> filteredTarifler = new ArrayList<>();
-
-        for (Tarif tarif : allTarifler) {
-            if (tarif.getKategori().equals(kategori)) {
-                filteredTarifler.add(tarif);
-            }
+        // Kategoriye göre filtreleme
+        String kategoriAdi = getIntent().getStringExtra("kategori");
+        if (kategoriAdi != null) {
+            loadTariflerByKategori(kategoriAdi);
         }
-
-        return filteredTarifler;
     }
 
-    // Örnek tarif listesi (Bu kısmı kendi veri kaynağınıza göre güncelleyin)
-    private List<Tarif> getSampleTarifList() {
-        List<Tarif> tarifList = new ArrayList<>();
-        tarifList.add(new Tarif("Pizza", "Ana Yemekler", "Lezzetli bir pizza tarifi.", R.drawable.pizza, "Malzemeler: Un, su, maya, domates sosu, peynir", "Yapılış: Hamuru yoğur, sosu sür, peynir ekle ve fırında pişir."));
-        tarifList.add(new Tarif("Makarna", "Ana Yemekler", "Kolay makarna tarifi.", R.drawable.makarna, "Malzemeler: Makarna, su, tuz, sos", "Yapılış: Makarnayı haşla, sosu ekle ve karıştır."));
-        tarifList.add(new Tarif("Çikolatalı Kek", "Tatlılar", "Çikolatalı kek tarifi.", R.drawable.kek, "Malzemeler: Un, şeker, kakao, yumurta, süt", "Yapılış: Malzemeleri karıştır, fırında pişir."));
-        tarifList.add(new Tarif("Salata", "Salatalar", "Sağlıklı Salata tarifi.", R.drawable.salata, "Malzemeler: Marul, domates, salatalık, roka", "Yapılış: Sebzeleri doğra, servis et."));
-        return tarifList;
+    private void loadTariflerByKategori(String kategori) {
+        Query query = databaseReference.orderByChild("kategori").equalTo(kategori);
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Tarif> tarifList = new ArrayList<>();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Tarif tarif = snapshot.getValue(Tarif.class);
+                    if (tarif != null) {
+                        tarif.setId(snapshot.getKey()); // Firebase ID'sini kaydet
+                        tarifList.add(tarif);
+                    }
+                }
+
+                tarifAdapter = new TarifAdapter(tarifList, tarif -> {
+                    Intent intent = new Intent(TarifListesiActivity.this, TarifDetayActivity.class);
+                    intent.putExtra("tarifId", tarif.getId()); // Sadece ID gönder
+                    startActivity(intent);
+                });
+                recyclerView.setAdapter(tarifAdapter);
+
+                if (tarifList.isEmpty()) {
+                    Toast.makeText(TarifListesiActivity.this,
+                            "Bu kategoride tarif bulunamadı",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(TarifListesiActivity.this,
+                        "Veri çekilirken hata: " + error.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

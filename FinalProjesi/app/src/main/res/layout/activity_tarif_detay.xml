@@ -5,27 +5,72 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Resim için ImageView -->
+    <ImageView
+        android:id="@+id/iv_recipe_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/recipe_image"/>
+
+    <!-- Tarif İsmi -->
+    <ImageButton
+        android:id="@+id/btnBookmark"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@null"
+        android:contentDescription="@string/save"
+        android:src="@drawable/ic_bookmark_border" />
+
     <TextView
-        android:id="@+id/textViewIsim"
+        android:id="@+id/tv_recipe_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tarif İsmi"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
 
+    <!-- Kategori -->
     <TextView
-        android:id="@+id/textViewMalzemeler"
+        android:id="@+id/tv_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="?attr/colorPrimary"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Malzemeler Başlığı -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ingredients"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Malzemeler Listesi -->
+    <TextView
+        android:id="@+id/tv_ingredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Yapılış Başlığı -->
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Malzemeler"
+        android:text="@string/steps"
         android:textSize="18sp"
-        android:layout_marginTop="16dp" />
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
 
+    <!-- Yapılış Adımları -->
     <TextView
-        android:id="@+id/textViewYapilis"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_steps"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Yapılış"
-        android:textSize="18sp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="8dp"/>
+
+    <!-- Kaydet Butonu -->
+
 </LinearLayout>

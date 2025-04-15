@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,14 +31,10 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
     public void onBindViewHolder(@NonNull KategoriViewHolder holder, int position) {
         Kategori kategori = kategoriList.get(position);
         holder.textViewIsim.setText(kategori.getIsim());
+        holder.imageViewIkon.setImageResource(kategori.getIkonResmi());
 
         // Kategoriye tıklama olayı
-        holder.itemView.setOnClickListener(v -> {
-            // Kategoriye tıklandığında, o kategoriye ait tarifleri gösteren yeni bir aktivite başlat
-            Intent intent = new Intent(holder.itemView.getContext(), TarifListesiActivity.class);
-            intent.putExtra("kategori", kategori.getIsim());
-            holder.itemView.getContext().startActivity(intent);
-        });
+        holder.itemView.setOnClickListener(v -> listener.onKategoriClick(kategori));
     }
 
     @Override
@@ -48,10 +45,12 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
     // ViewHolder sınıfı
     public static class KategoriViewHolder extends RecyclerView.ViewHolder {
         TextView textViewIsim;
+        ImageView imageViewIkon;
 
         public KategoriViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewIsim = itemView.findViewById(R.id.textViewIsim);
+            imageViewIkon = itemView.findViewById(R.id.imageViewIkon);
         }
     }
 

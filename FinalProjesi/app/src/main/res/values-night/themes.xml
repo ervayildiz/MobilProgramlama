@@ -1,7 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Tarif" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <!-- Dark theme variation -->
+    <style name="Theme.Tarif" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/jungle_green</item>
+        <item name="colorPrimaryDark">@color/jungle_green_dark</item>
+        <item name="colorPrimaryVariant">@color/jungle_green</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/soft_pink</item>
+        <item name="colorSecondaryVariant">@color/soft_pink_dark</item>
+        <item name="colorOnSecondary">@color/text_primary</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/black</item>
+
+        <!-- Background colors -->
+        <item name="android:windowBackground">@color/black</item>
+        <item name="colorSurface">@color/gray_dark</item>
+        <item name="colorOnSurface">@color/white</item>
+
+        <!-- Text colors -->
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/gray_light</item>
+
+        <!-- Component styles -->
+        <item name="chipStyle">@style/Widget.Tarif.Chip.Dark</item>
+        <item name="buttonStyle">@style/Widget.Tarif.Button.Dark</item>
+        <item name="textInputStyle">@style/Widget.Tarif.TextInputLayout.Dark</item>
+    </style>
+
+    <!-- Dark Chip style -->
+    <style name="Widget.Tarif.Chip.Dark" parent="Widget.Tarif.Chip">
+        <item name="chipBackgroundColor">@color/jungle_green_dark</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- Dark Button style -->
+    <style name="Widget.Tarif.Button.Dark" parent="Widget.Tarif.Button">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- Dark TextInputLayout style -->
+    <style name="Widget.Tarif.TextInputLayout.Dark" parent="Widget.Tarif.TextInputLayout">
+        <item name="hintTextColor">@color/soft_pink</item>
+        <item name="boxStrokeColor">@color/soft_pink</item>
     </style>
 </resources>

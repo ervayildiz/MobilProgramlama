@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Yeni renk paleti -->
+    <color name="jungle_green">#516345</color>
+    <color name="jungle_green_dark">#3A4731</color>
+    <color name="soft_pink">#FBDCDA</color>
+    <color name="soft_pink_dark">#F8C9C7</color>
+
+    <!-- Temel renkler -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Gri tonlar -->
+    <color name="gray_light">#F5F5F5</color>
+    <color name="gray_dark">#757575</color>
+    <color name="gray_600">#949494</color>
+
+    <!-- Metin renkleri -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+
+    <!-- Bileşen renkleri -->
+    <color name="chip_background">#EDF5EA</color>
+    <color name="divider">#BDBDBD</color>
+
+    <color name="colorPrimary">@color/jungle_green</color>
+    <color name="colorPrimaryDark">@color/jungle_green_dark</color>
+    <color name="colorAccent">@color/soft_pink</color>
+
+
+
+
+        <!-- Primary Colors -->
+        <color name="primaryColor">@color/jungle_green</color>
+        <color name="primaryDarkColor">@color/jungle_green_dark</color>
+        <color name="accentColor">@color/soft_pink</color>
+
+        <!-- Text Colors -->
+        <color name="textPrimary">#212121</color>
+        <color name="textSecondary">#757575</color>
+        <color name="textOnPrimary">#FFFFFF</color>
+
+        <!-- Background Colors -->
+        <color name="background">#FFFFFF</color>
+        <color name="surface">#FFFFFF</color>
+        <color name="error">#B00020</color>
+
+        <!-- Additional Colors -->
+        <color name="gray">#9E9E9E</color>
+        <color name="light_gray">#E0E0E0</color>
+
 </resources>

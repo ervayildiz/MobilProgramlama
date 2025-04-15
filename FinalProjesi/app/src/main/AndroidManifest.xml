@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.tarif">
 
     <application
@@ -9,20 +10,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tarif">
+
+
+
         <activity
-            android:name=".TarifListesiActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TarifDetayActivity" />
+        <!-- Diğer activity'ler -->
+        <activity android:name=".MainActivity" />
+        <activity android:name=".TarifListesiActivity" />
         <activity android:name=".KategoriActivity" />
+        <activity android:name=".TarifDetayActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".ChangePasswordActivity" />
+        <activity android:name=".SavedRecipesActivity" />
+        <activity android:name=".RegisterActivity" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

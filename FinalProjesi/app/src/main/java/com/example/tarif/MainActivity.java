@@ -2,55 +2,105 @@ package com.example.tarif;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import java.util.ArrayList;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // RecyclerView ve Adapter ayarları
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav.setSelectedItemId(R.id.nav_home);
 
-        List<Tarif> tarifList = new ArrayList<>();
-        tarifList.add(new Tarif("Pizza", "Ana Yemek", "Lezzetli bir pizza tarifi.", R.drawable.pizza, "Malzemeler: Un, su, maya, domates sosu, peynir", "Yapılış: Hamuru yoğur, sosu sür, peynir ekle ve fırında pişir."));
-        tarifList.add(new Tarif("Makarna", "Ana Yemek", "Kolay makarna tarifi.", R.drawable.makarna, "Malzemeler: Makarna, su, tuz, sos", "Yapılış: Makarnayı haşla, sosu ekle ve karıştır."));
-        tarifList.add(new Tarif("Çikolatalı Kek", "Tatlı", "Çikolatalı kek tarifi.", R.drawable.kek, "Malzemeler: Un, şeker, kakao, yumurta, süt", "Yapılış: Malzemeleri karıştır, fırında pişir."));
-
-        TarifAdapter tarifAdapter = new TarifAdapter(this, tarifList, tarif -> {
-            // TarifDetayActivity'yi başlat ve tarif bilgilerini gönder
-            Intent intent = new Intent(MainActivity.this, TarifDetayActivity.class);
-            intent.putExtra("tarif", tarif); // Tarif nesnesini Serializable olarak gönder
-            startActivity(intent);
-        });
-        recyclerView.setAdapter(tarifAdapter);
-
-        // Bottom Navigation ayarları
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.nav_ana_sayfa) {
-                // Ana sayfada kal
-            } else if (itemId == R.id.nav_kategoriler) {
-                // Kategoriler sayfasına geçiş
-                Intent intent = new Intent(MainActivity.this, KategoriActivity.class);
-                intent.putExtra("kategori", "Ana Yemek"); // Örnek olarak "Ana Yemek" kategorisini gönder
-                startActivity(intent);
-            } else if (itemId == R.id.nav_kaydedilenler) {
-                // Kaydedilenler sayfasına geçiş
-            } else if (itemId == R.id.nav_arama) {
-                // Arama sayfasına geçiş
-            } else if (itemId == R.id.nav_profile) {
-                // Profil sayfasına geçiş
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_home) {
+                // Zaten ana sayfadayız
+                return true;
+            } else if (id == R.id.nav_categories) {
+                startActivity(new Intent(this, KategoriActivity.class));
+                finish();
+                return true;
+            } else if (id == R.id.nav_saved) {
+                startActivity(new Intent(this, SavedRecipesActivity.class));
+                finish();
+                return true;
+            } else if (id == R.id.nav_profile) {
+                startActivity(new Intent(this, ProfileActivity.class));
+                finish();
+                return true;
             }
-            return true; // Önemli: true döndürün, aksi takdirde seçim işlemi gerçekleşmez.
+            return false;
         });
+
+        initializeUI();
+    }
+
+    private void initializeUI() {
+        // RecyclerView'ları tanımla
+        RecyclerView rvRecommended = findViewById(R.id.rvDenemelisin);
+        RecyclerView rvBookmarked = findViewById(R.id.rvBookmarks);
+
+        // LayoutManager ayarla
+        rvRecommended.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        rvBookmarked.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        // Verileri yükle
+        loadRecipes(rvRecommended, rvBookmarked);
+    }
+
+    private void loadRecipes(RecyclerView rvRecommended, RecyclerView rvBookmarked) {
+        // Önerilen tarifler
+        RecipeRepository.getRecipesFromSource(this, new RecipeRepository.DataLoadListener() {
+            @Override
+            public void onDataLoaded(List<Tarif> recipes) {
+                setupAdapter(rvRecommended, recipes);
+            }
+            @Override
+            public void onError(Exception e) {
+                showError(R.string.error_load_recommended);
+            }
+        });
+
+        // Kayıtlı tarifler (null kontrolü ile)
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            RecipeRepository.getSavedRecipes(user.getUid(), new RecipeRepository.DataLoadListener() {
+                @Override
+                public void onDataLoaded(List<Tarif> recipes) {
+                    setupAdapter(rvBookmarked, recipes);
+                }
+                @Override
+                public void onError(Exception e) {
+                    showError(R.string.error_load_bookmarked);
+                }
+            });
+        }
+    }
+
+    private void setupAdapter(RecyclerView recyclerView, List<Tarif> recipes) {
+        if (recipes != null && !recipes.isEmpty()) {
+            TarifAdapter adapter = new TarifAdapter(recipes, tarif -> {
+                Intent intent = new Intent(MainActivity.this, TarifDetayActivity.class);
+                intent.putExtra("tarifId", tarif.getId()); // Sadece ID gönder
+                startActivity(intent);
+            });
+            recyclerView.setAdapter(adapter);
+        }
+    }
+
+    private void showError(int resId) {
+        Toast.makeText(this, getString(resId), Toast.LENGTH_SHORT).show();
     }
 }

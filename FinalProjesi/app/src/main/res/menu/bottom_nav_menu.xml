@@ -1,22 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_ana_sayfa"
+        android:id="@+id/nav_home"
         android:icon="@drawable/ic_home"
-        android:title="@string/ana_sayfa" />  <!-- strings.xml'den referans -->
+        android:title="Ana Sayfa"/>
     <item
-        android:id="@+id/nav_kategoriler"
+        android:id="@+id/nav_categories"
         android:icon="@drawable/ic_category"
-        android:title="@string/kategoriler" />  <!-- strings.xml'den referans -->
+        android:title="Kategoriler"/>
     <item
-        android:id="@+id/nav_kaydedilenler"
+        android:id="@+id/nav_saved"
         android:icon="@drawable/ic_favorite"
-        android:title="@string/kaydedilenler" />  <!-- strings.xml'den referans -->
-    <item
-        android:id="@+id/nav_arama"
-        android:icon="@drawable/ic_search"
-        android:title="@string/arama" />  <!-- strings.xml'den referans -->
+        android:title="Kaydedilenler"/>
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/ic_profile"
-        android:title="@string/profil" />  <!-- strings.xml'den referans -->
+        android:title="Profil"/>
 </menu>

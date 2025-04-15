@@ -2,45 +2,30 @@ package com.example.tarif;
 
 import java.io.Serializable;
 
-public class Tarif implements Serializable {
-    private String isim;
+public class Tarif {
+    private String id;
+    private String ad;
     private String kategori;
-    private String aciklama;
-    private int resimId;
     private String malzemeler;
-    private String yapilis;
+    private String yapilisAdimlari;
+    private int hazirlikSuresi;
+    private int pisirmeSuresi;
+    private String servisSayisi;
+    private String resimId;
 
-    public Tarif(String isim, String kategori, String aciklama, int resimId, String malzemeler, String yapilis) {
-        this.isim = isim;
-        this.kategori = kategori;
-        this.aciklama = aciklama;
-        this.resimId = resimId;
-        this.malzemeler = malzemeler;
-        this.yapilis = yapilis;
+    public Tarif() {
+        // Firebase için boş constructor gerekli
     }
 
-    // Getter metodları
-    public String getIsim() {
-        return isim;
-    }
-
-    public String getKategori() {
-        return kategori;
-    }
-
-    public String getAciklama() {
-        return aciklama;
-    }
-
-    public int getResimId() {
-        return resimId;
-    }
-
-    public String getMalzemeler() {
-        return malzemeler;
-    }
-
-    public String getYapilis() {
-        return yapilis;
-    }
+    // Getter ve Setter metodları
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getAd() { return ad; }
+    public String getKategori() { return kategori; }
+    public String getMalzemeler() { return malzemeler; }
+    public String getYapilisAdimlari() { return yapilisAdimlari; }
+    public int getHazirlikSuresi() { return hazirlikSuresi; }
+    public int getPisirmeSuresi() { return pisirmeSuresi; }
+    public String getServisSayisi() { return servisSayisi; }
+    public String getResimId() { return resimId; }
 }
