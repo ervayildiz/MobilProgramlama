@@ -1,1 +1,13 @@
-/build
+# Android Studio
+.idea/
+*.iml
+.gradle/
+local.properties
+
+# Build outputs
+/build/
+*/build/
+captures/
+
+# macOS
+.DS_Store
