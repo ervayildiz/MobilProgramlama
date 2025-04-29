@@ -6,25 +6,29 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
+
 import java.util.List;
 
 public class TarifAdapter extends RecyclerView.Adapter<TarifAdapter.TarifViewHolder> {
-    private List<Tarif> tarifList;
-    private final OnTarifClickListener listener;
+    private final List<Tarif> tarifList;
+    private final OnItemClickListener listener;
 
-    public TarifAdapter(List<Tarif> tarifList, OnTarifClickListener listener) {
-        this.tarifList = tarifList;
-        this.listener = listener;
+    public interface OnItemClickListener {
+        void onItemClick(Tarif tarif);
     }
 
-    public void updateList(List<Tarif> newList) {
-        tarifList = new ArrayList<>();
-        tarifList.addAll(newList);
-        notifyDataSetChanged();
+    public TarifAdapter(List<Tarif> tarifList, OnItemClickListener listener) {
+        this.tarifList = tarifList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -38,38 +42,63 @@ public class TarifAdapter extends RecyclerView.Adapter<TarifAdapter.TarifViewHol
     @Override
     public void onBindViewHolder(@NonNull TarifViewHolder holder, int position) {
         Tarif tarif = tarifList.get(position);
-        holder.textViewAd.setText(tarif.getAd());
 
-        // Resmi yükle (resimId drawable adı olarak kullanılıyorsa)
-        try {
-            int resId = holder.itemView.getContext().getResources()
-                    .getIdentifier(tarif.getResimId(), "drawable",
-                            holder.itemView.getContext().getPackageName());
-            holder.imageView.setImageResource(resId);
-        } catch (Exception e) {
-            holder.imageView.setImageResource(R.drawable.default_resim);
+        holder.textViewIsim.setText(tarif.getAd());
+        holder.textViewKategori.setText(tarif.getKategori());
+
+        int imageResId = holder.itemView.getContext().getResources()
+                .getIdentifier(tarif.getResimId(), "drawable", holder.itemView.getContext().getPackageName());
+        if (imageResId != 0) {
+            holder.imageViewResim.setImageResource(imageResId);
+        } else {
+            holder.imageViewResim.setImageResource(R.drawable.default_resim);  // 🔥 Yedek resim
         }
 
-        holder.itemView.setOnClickListener(v -> listener.onTarifClick(tarif));
+
+        // 🔥 Bookmark Senkronizasyonu
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) return;
+        String userId = currentUser.getUid();
+
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(userId)
+                .collection("favoriler")
+                .whereEqualTo("tarifId", tarif.getTarifId())
+                .get(Source.SERVER)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        holder.btnBookmark.setImageResource(R.drawable.ic_bookmark_filled);
+                    } else {
+                        holder.btnBookmark.setImageResource(R.drawable.ic_bookmark_border);
+                    }
+                });
+
+        // 🔥 Tıklamalar
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(tarif));
     }
 
     @Override
     public int getItemCount() {
         return tarifList.size();
     }
+    public void updateList(List<Tarif> newList) {
+        tarifList.clear();
+        tarifList.addAll(newList);
+        notifyDataSetChanged();
+    }
 
-    static class TarifViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewAd;
-        ImageView imageView;
+    public static class TarifViewHolder extends RecyclerView.ViewHolder {
+        TextView textViewIsim, textViewKategori, textViewAciklama;
+        ImageView imageViewResim;
+        ImageButton btnBookmark;
 
         public TarifViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewAd = itemView.findViewById(R.id.textViewIsim);
-            imageView = itemView.findViewById(R.id.imageViewResim);
+            textViewIsim = itemView.findViewById(R.id.textViewIsim);
+            textViewKategori = itemView.findViewById(R.id.textViewKategori);
+            imageViewResim = itemView.findViewById(R.id.imageViewResim);
+            btnBookmark = itemView.findViewById(R.id.btnBookmark);
         }
-    }
-
-    public interface OnTarifClickListener {
-        void onTarifClick(Tarif tarif);
     }
 }

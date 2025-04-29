@@ -1,91 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_above="@+id/bottom_nav"
-    android:fillViewport="true"
-    tools:context=".MainActivity">
+    <!-- Scrollable content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:paddingBottom="56dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-
-
-        <!-- Header Section -->
-        <TextView
-            android:id="@+id/txtHosgeldin"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/welcome_message"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:padding="16dp">
 
-        <!-- Search Section -->
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:placeholderText="@string/search_hint"
-            app:startIconDrawable="@drawable/ic_search">
+            <!-- Hoşgeldin Mesajı -->
+            <TextView
+                android:id="@+id/txtHosgeldin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Merhaba!"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"/>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtArama"
+            <!-- Arama Alanı -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionSearch"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                app:placeholderText="Tarif ara"
+                app:startIconDrawable="@drawable/ic_search">
 
-        <!-- Recommended Recipes -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/recommended_title"
-            android:textSize="18sp"
-            android:layout_marginTop="24dp"/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtArama"
+                    android:layout_width="match_parent"
+                    android:layout_height="51dp"
+                    android:imeOptions="actionSearch" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvDenemelisin"
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:layout_marginTop="8dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="horizontal"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSearchResults"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"/>
 
-        <!-- Bookmarked Recipes -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/bookmarked_title"
-            android:textSize="18sp"
-            android:layout_marginTop="24dp"/>
+            <!-- Önerilen Tarifler -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Önerilen Tarifler"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvBookmarks"
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:layout_marginTop="8dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="horizontal"/>
-    </LinearLayout>
-</ScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvOnerilenTarifler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
 
-    <!-- Bottom Navigation View -->
+            <!-- Kayıtlı Tarifler Başlık + Göz At -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/txtKayitliBaslik"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Kayıtlı Tarifler"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/btnGozAt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Göz at"
+                    android:textColor="@color/pink"
+                    android:textSize="14sp"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtKayitliBos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Henüz kaydedilen tarifin yok."
+                android:layout_marginTop="8dp"
+                android:visibility="gone"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvKayitliTarifler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Sabit Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_nav_menu" />
-</RelativeLayout>
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        style="@style/BottomNavigationStyle"
+        app:menu="@menu/bottom_nav_menu"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

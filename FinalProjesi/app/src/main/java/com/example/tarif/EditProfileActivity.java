@@ -1,117 +1,80 @@
 package com.example.tarif;
 
 import android.os.Bundle;
-import android.util.Patterns;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
-import com.google.android.material.textfield.TextInputLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import java.util.HashMap;
-import java.util.Map;
 
-public class EditProfileActivity extends BaseActivity {
-    private TextInputLayout tilName, tilEmail;
-    private com.google.android.material.textfield.TextInputEditText etNewName, etNewEmail;
-    private FirebaseFirestore db;
-    private com.google.android.material.button.MaterialButton btnSaveChanges;
+public class EditProfileActivity extends AppCompatActivity {
+
+    private EditText editTextEmail, editTextName, editTextSurname;
+    private Button btnSaveProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        db = FirebaseFirestore.getInstance();
 
-        // View binding with new IDs
-        tilName = findViewById(R.id.tilName);
-        tilEmail = findViewById(R.id.tilEmail);
-        etNewName = findViewById(R.id.etNewName);
-        etNewEmail = findViewById(R.id.etNewEmail);
-        btnSaveChanges = findViewById(R.id.btnSaveChanges);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextName = findViewById(R.id.editTextName);
+        editTextSurname = findViewById(R.id.editTextSurname);
+        btnSaveProfile = findViewById(R.id.btnSaveProfile);
 
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            etNewEmail.setText(user.getEmail());
+        loadUserData();
 
-            db.collection("users").document(user.getUid())
-                    .get()
-                    .addOnSuccessListener(document -> {
-                        if (document.exists()) {
-                            etNewName.setText(document.getString("name"));
-                        }
-                    });
-        }
-
-        btnSaveChanges.setOnClickListener(v -> updateProfile());
+        btnSaveProfile.setOnClickListener(v -> saveUserData());
     }
 
-    private void updateProfile() {
-        String newName = etNewName.getText().toString().trim();
-        String newEmail = etNewEmail.getText().toString().trim();
-        FirebaseUser user = mAuth.getCurrentUser();
+    private void loadUserData() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            editTextEmail.setText(user.getEmail());
+            FirebaseFirestore.getInstance().collection("users")
+                    .document(user.getUid())
+                    .get()
+                    .addOnSuccessListener(doc -> {
+                        editTextName.setText(doc.getString("name"));
+                        editTextSurname.setText(doc.getString("surname"));
+                    });
+        }
+    }
 
-        if (!validateInputs(newName, newEmail) || user == null) {
+    private void saveUserData() {
+        String email = editTextEmail.getText().toString().trim();
+        String name = editTextName.getText().toString().trim();
+        String surname = editTextSurname.getText().toString().trim();
+
+        if (email.isEmpty() || name.isEmpty() || surname.isEmpty()) {
+            Toast.makeText(this, "Alanlar boş olamaz", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        btnSaveChanges.setEnabled(false);
-        btnSaveChanges.setText("Güncelleniyor...");
-
-        if (!user.getEmail().equals(newEmail)) {
-            user.updateEmail(newEmail)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            updateFirestoreProfile(user.getUid(), newName);
-                        } else {
-                            handleError(task.getException().getMessage());
-                        }
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Authentication email güncelle
+            user.updateEmail(email)
+                    .addOnSuccessListener(aVoid -> {
+                        // Firestore bilgileri güncelle
+                        FirebaseFirestore.getInstance().collection("users")
+                                .document(user.getUid())
+                                .update("email", email, "name", name, "surname", surname)
+                                .addOnSuccessListener(aVoid1 -> {
+                                    Toast.makeText(this, "Profil güncellendi", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(this, "Firestore hatası: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Email güncelleme hatası: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
-        } else {
-            updateFirestoreProfile(user.getUid(), newName);
         }
-    }
-
-    private boolean validateInputs(String name, String email) {
-        boolean valid = true;
-
-        if (name.isEmpty()) {
-            tilName.setError("İsim boş olamaz");
-            valid = false;
-        } else {
-            tilName.setError(null);
-        }
-
-        if (email.isEmpty()) {
-            tilEmail.setError("Email boş olamaz");
-            valid = false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            tilEmail.setError("Geçerli email girin");
-            valid = false;
-        } else {
-            tilEmail.setError(null);
-        }
-
-        return valid;
-    }
-
-    private void updateFirestoreProfile(String userId, String newName) {
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("name", newName);
-
-        db.collection("users").document(userId)
-                .update(updates)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(this, "Profil güncellendi", Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else {
-                        handleError(task.getException().getMessage());
-                    }
-                });
-    }
-
-    private void handleError(String error) {
-        btnSaveChanges.setEnabled(true);
-        btnSaveChanges.setText("Kaydet");
-        Toast.makeText(this, "Hata: " + error, Toast.LENGTH_SHORT).show();
     }
 }

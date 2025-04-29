@@ -4,70 +4,58 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
-    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private EditText editTextOldPassword, editTextNewPassword;
+    private Button btnChangePassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
-        // View'ları bağla
-        EditText etNewPassword = findViewById(R.id.etNewPassword);
-        EditText etConfirmPassword = findViewById(R.id.etConfirmPassword);
-        Button btnChangePassword = findViewById(R.id.btnChangePassword);
+        editTextOldPassword = findViewById(R.id.editTextOldPassword);
+        editTextNewPassword = findViewById(R.id.editTextNewPassword);
+        btnChangePassword = findViewById(R.id.btnChangePassword);
 
-        btnChangePassword.setOnClickListener(v -> {
-            String newPassword = etNewPassword.getText().toString().trim();
-            String confirmPassword = etConfirmPassword.getText().toString().trim();
-
-            if (validateInputs(newPassword, confirmPassword)) {
-                changePassword(newPassword);
-            }
-        });
+        btnChangePassword.setOnClickListener(v -> changePassword());
     }
 
-    private boolean validateInputs(String newPassword, String confirmPassword) {
-        if (newPassword.isEmpty() || confirmPassword.isEmpty()) {
-            Toast.makeText(this, "Lütfen tüm alanları doldurun", Toast.LENGTH_SHORT).show();
-            return false;
+    private void changePassword() {
+        String oldPassword = editTextOldPassword.getText().toString().trim();
+        String newPassword = editTextNewPassword.getText().toString().trim();
+
+        if (oldPassword.isEmpty() || newPassword.length() < 6) {
+            Toast.makeText(this, "Geçerli şifreler girin", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        if (!newPassword.equals(confirmPassword)) {
-            Toast.makeText(this, "Şifreler uyuşmuyor", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (newPassword.length() < 6) {
-            Toast.makeText(this, "Şifre en az 6 karakter olmalı", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        return true;
-    }
-
-    private void changePassword(String newPassword) {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            user.updatePassword(newPassword)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(ChangePasswordActivity.this,
-                                    "Şifre başarıyla değiştirildi", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            String errorMessage = "Şifre değiştirilemedi";
-                            if (task.getException() != null) {
-                                errorMessage += ": " + task.getException().getMessage();
-                            }
-                            Toast.makeText(ChangePasswordActivity.this,
-                                    errorMessage, Toast.LENGTH_LONG).show();
-                        }
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null && user.getEmail() != null) {
+            // Re-authenticate
+            AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), oldPassword);
+            user.reauthenticate(credential)
+                    .addOnSuccessListener(aVoid -> {
+                        // Şifreyi güncelle
+                        user.updatePassword(newPassword)
+                                .addOnSuccessListener(aVoid1 -> {
+                                    Toast.makeText(this, "Şifre değiştirildi", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(this, "Şifre değiştirilemedi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Eski şifre yanlış: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         }
     }

@@ -5,7 +5,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Resim için ImageView -->
     <ImageView
         android:id="@+id/iv_recipe_image"
         android:layout_width="match_parent"
@@ -13,24 +12,34 @@
         android:scaleType="centerCrop"
         android:contentDescription="@string/recipe_image"/>
 
-    <!-- Tarif İsmi -->
-    <ImageButton
-        android:id="@+id/btnBookmark"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="@null"
-        android:contentDescription="@string/save"
-        android:src="@drawable/ic_bookmark_border" />
-
-    <TextView
-        android:id="@+id/tv_recipe_name"
-        android:layout_width="wrap_content"
+    <!-- Tarif adı ve bookmark aynı satırda -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp">
 
-    <!-- Kategori -->
+        <TextView
+            android:id="@+id/tv_recipe_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:id="@+id/btnBookmark"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_bookmark_border"
+            android:importantForAccessibility="no"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tv_category"
         android:layout_width="match_parent"
@@ -39,7 +48,6 @@
         android:textColor="?attr/colorPrimary"
         android:layout_marginBottom="16dp"/>
 
-    <!-- Malzemeler Başlığı -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,14 +56,12 @@
         android:textStyle="bold"
         android:layout_marginBottom="8dp"/>
 
-    <!-- Malzemeler Listesi -->
     <TextView
         android:id="@+id/tv_ingredients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"/>
 
-    <!-- Yapılış Başlığı -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,13 +70,10 @@
         android:textStyle="bold"
         android:layout_marginTop="16dp"/>
 
-    <!-- Yapılış Adımları -->
     <TextView
         android:id="@+id/tv_steps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"/>
-
-    <!-- Kaydet Butonu -->
 
 </LinearLayout>

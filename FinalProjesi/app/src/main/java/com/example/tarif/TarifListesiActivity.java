@@ -54,14 +54,14 @@ public class TarifListesiActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Tarif tarif = snapshot.getValue(Tarif.class);
                     if (tarif != null) {
-                        tarif.setId(snapshot.getKey()); // Firebase ID'sini kaydet
+                        tarif.setTarifId(snapshot.getKey()); // Firebase ID'sini kaydet
                         tarifList.add(tarif);
                     }
                 }
 
                 tarifAdapter = new TarifAdapter(tarifList, tarif -> {
                     Intent intent = new Intent(TarifListesiActivity.this, TarifDetayActivity.class);
-                    intent.putExtra("tarifId", tarif.getId()); // Sadece ID gönder
+                    intent.putExtra("tarifId", tarif.getTarifId()); // Sadece ID gönder
                     startActivity(intent);
                 });
                 recyclerView.setAdapter(tarifAdapter);

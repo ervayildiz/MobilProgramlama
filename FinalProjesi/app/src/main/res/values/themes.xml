@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Tarif" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
+    <style name="Theme.Tarif" parent="Theme.Material3.DayNight.NoActionBar">
+
+    <!-- Primary brand color. -->
         <item name="colorPrimary">@color/jungle_green</item>
         <item name="colorPrimaryDark">@color/jungle_green_dark</item>
         <item name="colorPrimaryVariant">@color/jungle_green_dark</item>
@@ -34,6 +35,11 @@
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <item name="android:windowSplashScreenBackground">@color/colorPrimary</item> <!-- veya kendi splash arka plan rengin -->
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/laucher_logo</item> <!-- boş icon -->
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/white</item> <!-- beyaz renk -->
+
     </style>
 
     <!-- Chip style -->
@@ -61,4 +67,15 @@
         <item name="boxCornerRadiusBottomEnd">8dp</item>
         <item name="boxCornerRadiusBottomStart">8dp</item>
     </style>
+
+    <style name="BottomNavigationStyle" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemIconTint">@color/bottom_nav_color</item>
+        <item name="itemTextColor">@color/bottom_nav_color</item>
+        <item name="itemActiveIndicatorStyle">@style/BottomNavigationActiveIndicatorStyle</item>
+    </style>
+
+    <style name="BottomNavigationActiveIndicatorStyle" parent="">
+        <item name="android:backgroundTint">@android:color/transparent</item> <!-- Aktif ikonun altındaki mor zemin kalkıyor -->
+    </style>
+
 </resources>

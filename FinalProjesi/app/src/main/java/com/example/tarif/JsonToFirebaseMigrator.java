@@ -20,7 +20,7 @@ public class JsonToFirebaseMigrator {
 
         for (Tarif tarif : tarifler) {
             // Rastgele ID oluştur
-            tarif.setId(UUID.randomUUID().toString());
+            tarif.setTarifId(UUID.randomUUID().toString());
 
             // Firebase'e ekle
             repository.tarifEkle(tarif, task -> {

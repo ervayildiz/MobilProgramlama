@@ -26,7 +26,7 @@ public class RecipeRepository {
                         List<Tarif> tarifList = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Tarif tarif = document.toObject(Tarif.class);
-                            tarif.setId(document.getId()); // Firestore ID'sini kaydet
+                            tarif.setTarifId(document.getId()); // Firestore ID'sini kaydet
                             tarifList.add(tarif);
                         }
                         listener.onDataLoaded(tarifList);
@@ -52,7 +52,7 @@ public class RecipeRepository {
                         List<Tarif> filteredList = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Tarif tarif = document.toObject(Tarif.class);
-                            tarif.setId(document.getId());
+                            tarif.setTarifId(document.getId());
                             filteredList.add(tarif);
                         }
                         listener.onDataLoaded(filteredList);
@@ -85,7 +85,7 @@ public class RecipeRepository {
                         List<Tarif> savedRecipes = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Tarif tarif = document.toObject(Tarif.class);
-                            tarif.setId(document.getId());
+                            tarif.setTarifId(document.getId());
                             savedRecipes.add(tarif);
                         }
                         listener.onDataLoaded(savedRecipes);

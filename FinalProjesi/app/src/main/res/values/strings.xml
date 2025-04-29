@@ -30,8 +30,10 @@
     <string name="btn_save_changes">Kaydet</string>
     <string name="no_saved_recipes">Henüz kayıtlı tarifiniz yok</string>
     <string name="current_name">Mevcut isim: %s</string>
-    <string name="greeting_message">Merhaba, %s!</string>
+    <string name="greeting_message">Hoşgeldin!</string>
     <string name="btnBookmark">Save</string>
+    <string name="bookmark_icon">Bookmark icon</string>
+    <string name="btnResetPassword">Şifre Sıfırlama Maili Gönder</string>
 
     <!-- Tarif Detay Ekranı için Eklenen Stringler -->
     <string name="recipe_image">Tarif Görseli</string>
@@ -45,14 +47,14 @@
     <string name="welcome_message">Merhaba, %s!</string>
     <string name="logout_button">Çıkış Yap</string>
 
-        <string name="app_logo_desc">Uygulama logosu</string>
+    <string name="app_logo_desc">Uygulama logosu</string>
 
-        <string name="email_hint">Email</string>
-        <string name="password_hint">Password</string>
-        <string name="forgot_password">Forgot password?</string>
-        <string name="login_button">LOGIN</string>
-        <string name="explore_app">Explore the app</string>
-        <string name="register_prompt">Don\'t have account? Register</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="login_button">LOGIN</string>
+    <string name="explore_app">Explore the app</string>
+    <string name="register_prompt">Don\'t have account? Register</string>
 
     <string name="welcome_message_format">Merhaba, %s!</string>
     <string name="search_hint">Tarif ara...</string>
@@ -73,7 +75,15 @@
     <string name="bookmarked_title">Kayıtlı Tarifler</string>
     <string name="error_load_recommended">Önerilen tarifler yüklenemedi</string>
     <string name="error_load_bookmarked">Kayıtlı tarifler yüklenemedi</string>
-    <string name="save">Save</string>
+
+
+    <string name="recipe_name">Tarif İsmi</string>
+    <string name="category">Kategori</string>
+    <string name="description">Açıklama</string>
+
+    <string name="hint_surname">Soyad</string>
+    <string name="save">Kaydet</string>
+
 
     <string-array name="kategoriler">
         <item>Tümü</item>

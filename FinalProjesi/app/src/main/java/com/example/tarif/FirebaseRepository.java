@@ -26,7 +26,7 @@ public class FirebaseRepository {
 
     // Yeni tarif ekle
     public void tarifEkle(Tarif tarif, OnCompleteListener<Void> listener) {
-        tariflerRef.document(tarif.getId()).set(tarif).addOnCompleteListener(listener);
+        tariflerRef.document(tarif.getTarifId()).set(tarif).addOnCompleteListener(listener);
     }
 
     public void getFavoriTarifler(String userId, OnCompleteListener<QuerySnapshot> listener) {

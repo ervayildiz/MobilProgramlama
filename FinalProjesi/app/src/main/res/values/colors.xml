@@ -5,6 +5,7 @@
     <color name="jungle_green_dark">#3A4731</color>
     <color name="soft_pink">#FBDCDA</color>
     <color name="soft_pink_dark">#F8C9C7</color>
+    <color name="pink">#FFC5D3</color>
 
     <!-- Temel renkler -->
     <color name="white">#FFFFFF</color>
@@ -48,5 +49,7 @@
         <!-- Additional Colors -->
         <color name="gray">#9E9E9E</color>
         <color name="light_gray">#E0E0E0</color>
+
+
 
 </resources>

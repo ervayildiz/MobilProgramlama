@@ -4,12 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
+
     private EditText edtEmail, edtPassword;
+    private Button btnLogin;
+    private TextView txtForgotPassword, txtRegister, txtExplore;
     private FirebaseAuth mAuth;
 
     @Override
@@ -17,18 +24,30 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance();
         edtEmail = findViewById(R.id.edtEmail);
         edtPassword = findViewById(R.id.edtPassword);
+        btnLogin = findViewById(R.id.btnLogin);
+        txtForgotPassword = findViewById(R.id.txtForgotPassword);
+        txtRegister = findViewById(R.id.txtRegister);
+        txtExplore = findViewById(R.id.txtExplore);
 
-        // Oturum açık mı kontrol et
-        if (mAuth.getCurrentUser() != null) {
-            startMainActivity();
-        }
+        mAuth = FirebaseAuth.getInstance();
 
-        findViewById(R.id.btnLogin).setOnClickListener(v -> loginUser());
-        findViewById(R.id.txtRegister).setOnClickListener(v -> {
-            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+        btnLogin.setOnClickListener(v -> loginUser());
+
+        txtForgotPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
+        });
+
+        txtRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+
+        txtExplore.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -44,6 +63,8 @@ public class LoginActivity extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        Toast.makeText(this, "Giriş başarılı: " + user.getEmail(), Toast.LENGTH_SHORT).show();
                         startMainActivity();
                     } else {
                         Toast.makeText(this, "Giriş başarısız: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

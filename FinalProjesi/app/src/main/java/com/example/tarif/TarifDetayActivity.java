@@ -1,6 +1,7 @@
 package com.example.tarif;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.Source;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +38,8 @@ public class TarifDetayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tarif_detay);
+
+
 
         // Firebase bağlantıları
         databaseReference = FirebaseDatabase.getInstance().getReference("tarifler");
@@ -72,7 +76,14 @@ public class TarifDetayActivity extends AppCompatActivity {
         checkFavoriteStatus();
 
         // Bookmark butonuna tıklama olayı
-        btnBookmark.setOnClickListener(v -> toggleFavorite());
+        btnBookmark.setOnClickListener(v -> {
+            Log.d("BOOKMARK", "Tıklandı"); // 🔥 Tıklama kontrolü
+            if (isFavorite) {
+                removeFromFavorites();
+            } else {
+                addToFavorites();
+            }
+        });
 
         // Firebase'den tarif detaylarını çek
         databaseReference.child(tarifId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -113,17 +124,24 @@ public class TarifDetayActivity extends AppCompatActivity {
     }
 
     private void checkFavoriteStatus() {
-        firestore.collection("favoriler")
-                .whereEqualTo("userId", userId)
+        firestore.collection("users")
+                .document(userId)
+                .collection("favoriler")
                 .whereEqualTo("tarifId", tarifId)
-                .get()
+                .get(Source.SERVER) // 🔥 Server'dan oku
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         isFavorite = !task.getResult().isEmpty();
+                        Log.d("FAVORI_STATUS", "Favori bulundu mu: " + isFavorite); // 🔥 Favori durumu
                         updateBookmarkIcon();
+                    } else {
+                        Log.e("FAVORI_CHECK", "Hata: " + task.getException().getMessage());
                     }
                 });
+
+
     }
+
 
     private void toggleFavorite() {
         if (isFavorite) {
@@ -132,14 +150,25 @@ public class TarifDetayActivity extends AppCompatActivity {
             addToFavorites();
         }
     }
+    private void removeOldFavorites() {
+        FirebaseFirestore.getInstance().collection("favoriler").get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            document.getReference().delete();
+                        }
+                    }
+                });
+    }
 
     private void addToFavorites() {
         Map<String, Object> favorite = new HashMap<>();
-        favorite.put("userId", userId);
         favorite.put("tarifId", tarifId);
         favorite.put("timestamp", FieldValue.serverTimestamp());
 
-        firestore.collection("favoriler")
+        FirebaseFirestore.getInstance().collection("users")
+                .document(userId)
+                .collection("favoriler")
                 .add(favorite)
                 .addOnSuccessListener(documentReference -> {
                     isFavorite = true;
@@ -147,25 +176,33 @@ public class TarifDetayActivity extends AppCompatActivity {
                     Toast.makeText(this, "Favorilere eklendi", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Hata: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("FAVORI_ERROR", "Hata: " + e.getMessage());
                 });
+
     }
 
     private void removeFromFavorites() {
-        firestore.collection("favoriler")
-                .whereEqualTo("userId", userId)
+        FirebaseFirestore.getInstance().collection("users")
+                .document(userId)
+                .collection("favoriler")
                 .whereEqualTo("tarifId", tarifId)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            firestore.collection("favoriler").document(document.getId()).delete();
+                            document.getReference().delete()
+                                    .addOnSuccessListener(aVoid -> {
+                                        isFavorite = false;
+                                        updateBookmarkIcon();
+                                        Toast.makeText(this, "Favorilerden çıkarıldı", Toast.LENGTH_SHORT).show();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Log.e("FAVORI_ERROR", "Silme hatası: " + e.getMessage());
+                                    });
                         }
-                        isFavorite = false;
-                        updateBookmarkIcon();
-                        Toast.makeText(this, "Favorilerden çıkarıldı", Toast.LENGTH_SHORT).show();
                     }
                 });
+
     }
 
     private void updateBookmarkIcon() {

@@ -2,6 +2,8 @@ package com.example.tarif;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -68,7 +70,7 @@ public class SavedRecipesActivity extends AppCompatActivity {
 
         adapter = new TarifAdapter(new ArrayList<>(), tarif -> {
             Intent intent = new Intent(this, TarifDetayActivity.class);
-            intent.putExtra("tarifId", tarif.getId());
+            intent.putExtra("tarifId", tarif.getTarifId());
             startActivity(intent);
         });
         recyclerView.setAdapter(adapter);
@@ -77,11 +79,18 @@ public class SavedRecipesActivity extends AppCompatActivity {
     }
 
     private void loadSavedRecipes() {
+        TextView txtEmptyMessage = findViewById(R.id.txtEmptyMessage);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            // Firestore'dan favori tarif ID'lerini çek
-            FirebaseFirestore.getInstance().collection("favoriler")
-                    .whereEqualTo("userId", user.getUid())
+
+        if (user == null) {
+            adapter.updateList(new ArrayList<>());
+            txtEmptyMessage.setVisibility(View.VISIBLE);
+            txtEmptyMessage.setText("Favori tariflerinizi görmek için giriş yapın.");
+        } else {
+            txtEmptyMessage.setVisibility(View.GONE);
+            FirebaseFirestore.getInstance().collection("users")
+                    .document(user.getUid())
+                    .collection("favoriler")
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful() && !task.getResult().isEmpty()) {
@@ -90,7 +99,6 @@ public class SavedRecipesActivity extends AppCompatActivity {
                                 favoriteIds.add(document.getString("tarifId"));
                             }
 
-                            // Realtime Database'den tüm tarifleri çek
                             FirebaseDatabase.getInstance().getReference("tarifler")
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
@@ -98,16 +106,19 @@ public class SavedRecipesActivity extends AppCompatActivity {
                                             List<Tarif> savedRecipes = new ArrayList<>();
                                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                                 Tarif tarif = dataSnapshot.getValue(Tarif.class);
-                                                if (tarif != null && favoriteIds.contains(tarif.getId())) {
-                                                    savedRecipes.add(tarif);
+                                                if (tarif != null) {
+                                                    tarif.setTarifId(dataSnapshot.getKey());
+                                                    if (favoriteIds.contains(tarif.getTarifId())) {
+                                                        savedRecipes.add(tarif);
+                                                    }
                                                 }
                                             }
 
-                                            // Adapter'i güncelle
                                             if (savedRecipes.isEmpty()) {
-                                                Toast.makeText(SavedRecipesActivity.this,
-                                                        "Henüz favori tarifiniz yok",
-                                                        Toast.LENGTH_SHORT).show();
+                                                txtEmptyMessage.setVisibility(View.VISIBLE);
+                                                txtEmptyMessage.setText("Henüz favori tarifiniz yok.");
+                                            } else {
+                                                txtEmptyMessage.setVisibility(View.GONE);
                                             }
                                             adapter.updateList(savedRecipes);
                                         }
@@ -120,17 +131,15 @@ public class SavedRecipesActivity extends AppCompatActivity {
                                         }
                                     });
                         } else {
-                            Toast.makeText(SavedRecipesActivity.this,
-                                    "Favori tarif bulunamadı",
-                                    Toast.LENGTH_SHORT).show();
+                            txtEmptyMessage.setVisibility(View.VISIBLE);
+                            txtEmptyMessage.setText("Henüz favori tarifiniz yok.");
                             adapter.updateList(new ArrayList<>());
                         }
                     });
-        } else {
-            Toast.makeText(this, "Giriş yapmalısınız", Toast.LENGTH_SHORT).show();
-            finish();
         }
+
     }
+
 
     @Override
     protected void onResume() {

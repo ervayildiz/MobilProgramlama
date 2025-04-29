@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.tarif">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,17 +13,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tarif">
 
-
-
+        <!-- SplashActivity artık giriş noktası -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- Diğer activity'ler -->
+
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity android:name=".ForgotPasswordActivity" android:exported="false" />
         <activity android:name=".MainActivity" />
         <activity android:name=".TarifListesiActivity" />
         <activity android:name=".KategoriActivity" />
@@ -31,8 +36,7 @@
         <activity android:name=".ChangePasswordActivity" />
         <activity android:name=".SavedRecipesActivity" />
         <activity android:name=".RegisterActivity" />
-    </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    </application>
 
 </manifest>

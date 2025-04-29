@@ -32,6 +32,19 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp">
 
+    <EditText
+        android:id="@+id/etSurname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Soyad"
+        android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
@@ -70,16 +83,16 @@
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Kayıt Ol"
         android:backgroundTint="@color/colorPrimary"
-        android:textColor="@android:color/white"/>
+        android:text="Kayıt Ol"
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/btnLoginRedirect"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hesabınız var mı? Giriş Yapın"
         android:layout_marginTop="16dp"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:textColor="@color/colorPrimaryDark"/>
+        android:text="Hesabınız var mı? Giriş Yapın"
+        android:textColor="@color/colorPrimaryDark" />
 </LinearLayout>

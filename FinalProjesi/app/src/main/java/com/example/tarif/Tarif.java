@@ -3,7 +3,7 @@ package com.example.tarif;
 import java.io.Serializable;
 
 public class Tarif {
-    private String id;
+    private String TarifId;
     private String ad;
     private String kategori;
     private String malzemeler;
@@ -18,8 +18,8 @@ public class Tarif {
     }
 
     // Getter ve Setter metodları
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getTarifId() { return TarifId; }
+    public void setTarifId(String TarifId) { this.TarifId = TarifId; }
     public String getAd() { return ad; }
     public String getKategori() { return kategori; }
     public String getMalzemeler() { return malzemeler; }

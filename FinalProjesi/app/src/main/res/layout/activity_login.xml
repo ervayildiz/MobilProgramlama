@@ -11,15 +11,17 @@
     tools:context=".LoginActivity">
 
     <!-- Logo -->
-    <ImageView
-        android:layout_width="240dp"
-        android:layout_height="240dp"
-        android:src="@drawable/ic_logo"
-        android:contentDescription="@string/app_logo_desc"
-        android:layout_marginBottom="32dp"
-        app:tint="@color/textOnPrimary"/>
 
     <!-- Hoşgeldin Mesajı -->
+
+    <ImageView
+        android:layout_width="400dp"
+        android:layout_height="176dp"
+        android:layout_marginBottom="32dp"
+        android:contentDescription="@string/app_logo_desc"
+        android:src="@drawable/ic_logo"
+        app:tint="@color/textOnPrimary" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -111,6 +113,7 @@
 
     <!-- Keşfet Mesajı -->
     <TextView
+        android:id="@+id/txtExplore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/explore_app"
@@ -126,4 +129,6 @@
         android:text="@string/register_prompt"
         android:textColor="@color/textOnPrimary"
         android:layout_gravity="center"/>
+
+
 </LinearLayout>
