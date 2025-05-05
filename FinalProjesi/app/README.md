@@ -30,5 +30,3 @@ Bu Android uygulaması, Firebase altyapısı kullanarak kullanıcıların yemek 
  🧑‍💻 Geliştirici
 
 - Erva Yıldız
-- Son Güncelleme: `29.04.2025`
-
