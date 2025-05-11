@@ -4,29 +4,35 @@ package com.example.tarif;
 
 import android.content.Intent;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.tarif.TarifAdapter;
 import com.example.tarif.data.Callback;
 import com.example.tarif.data.TarifManager;
 import com.example.tarif.Tarif;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rvSearchResults;
     private TarifAdapter searchAdapter;
     private final List<Tarif> allTarifList = new ArrayList<>();
+    private static List<Tarif> cachedOnerilenTarifler = null;
+    private final TarifManager tarifManager = new TarifManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +54,7 @@ public class MainActivity extends AppCompatActivity {
         TextView txtHosgeldin = findViewById(R.id.txtHosgeldin);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            FirebaseFirestore.getInstance().collection("users")
-                    .document(user.getUid())
-                    .get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        String name = documentSnapshot.getString("name");
-                        txtHosgeldin.setText("Merhaba, " + name + "!");
-                    });
+            txtHosgeldin.setText("Merhaba!");
         }
 
         edtArama = findViewById(R.id.edtArama);
@@ -62,6 +64,18 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, TarifDetayActivity.class);
             intent.putExtra("tarifId", tarif.getTarifId());
             startActivity(intent);
+        }, (tarif, yeniDurum) -> {
+            if (yeniDurum) {
+                tarifManager.addToFavorites(tarif, new Callback<Void>() {
+                    @Override public void onSuccess(Void result) {}
+                    @Override public void onFailure(Exception e) {}
+                });
+            } else {
+                tarifManager.removeFromFavorites(tarif, new Callback<Void>() {
+                    @Override public void onSuccess(Void result) {}
+                    @Override public void onFailure(Exception e) {}
+                });
+            }
         });
         rvSearchResults.setAdapter(searchAdapter);
 
@@ -75,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         TextView btnGozAt = findViewById(R.id.btnGozAt);
         btnGozAt.setPaintFlags(btnGozAt.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         btnGozAt.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SavedRecipesActivity.class)));
+
         loadSavedRecipes(user, rvKayitli, txtKayitliBos, btnGozAt);
 
         edtArama.addTextChangedListener(new TextWatcher() {
@@ -110,39 +125,64 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseDynamicLinks.getInstance()
                 .getDynamicLink(getIntent())
-                .addOnSuccessListener(this, data -> {
-                    if (data != null && data.getLink() != null) {
-                        String tarifId = data.getLink().getQueryParameter("id");
-                        if (tarifId != null) {
-                            Intent i = new Intent(MainActivity.this, TarifDetayActivity.class);
-                            i.putExtra("tarifId", tarifId);
-                            startActivity(i);
+                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData data) {
+                        Uri deepLink = null;
+                        if (data != null) {
+                            deepLink = data.getLink();
+                            if (deepLink != null && deepLink.getQueryParameter("id") != null) {
+                                String tarifId = deepLink.getQueryParameter("id");
+                                Intent i = new Intent(MainActivity.this, TarifDetayActivity.class);
+                                i.putExtra("tarifId", tarifId);
+                                startActivity(i);
+                            }
                         }
                     }
                 });
     }
 
     private void loadRecipes(RecyclerView rvOnerilen) {
-        TarifManager tarifManager = new TarifManager();
-        tarifManager.getAll(new Callback<List<Tarif>>() {
+        DatabaseReference tarifRef = FirebaseDatabase.getInstance().getReference("tarifler");
+        tarifRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onSuccess(List<Tarif> tarifList) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Tarif> tarifList = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Tarif tarif = dataSnapshot.getValue(Tarif.class);
+                    tarif.setTarifId(dataSnapshot.getKey());
+                    tarifList.add(tarif);
+                }
                 allTarifList.clear();
                 allTarifList.addAll(tarifList);
-                Collections.shuffle(tarifList);
-                List<Tarif> gosterilecek = tarifList.subList(0, Math.min(6, tarifList.size()));
-                TarifAdapter adapter = new TarifAdapter(gosterilecek, tarif -> {
+
+                if (cachedOnerilenTarifler == null) {
+                    Collections.shuffle(tarifList);
+                    cachedOnerilenTarifler = tarifList.subList(0, Math.min(6, tarifList.size()));
+                }
+
+                TarifAdapter adapter = new TarifAdapter(cachedOnerilenTarifler, tarif -> {
                     Intent intent = new Intent(MainActivity.this, TarifDetayActivity.class);
                     intent.putExtra("tarifId", tarif.getTarifId());
                     startActivity(intent);
+                }, (tarif, yeniDurum) -> {
+                    if (yeniDurum) {
+                        tarifManager.addToFavorites(tarif, new Callback<Void>() {
+                            @Override public void onSuccess(Void result) {}
+                            @Override public void onFailure(Exception e) {}
+                        });
+                    } else {
+                        tarifManager.removeFromFavorites(tarif, new Callback<Void>() {
+                            @Override public void onSuccess(Void result) {}
+                            @Override public void onFailure(Exception e) {}
+                        });
+                    }
                 });
                 rvOnerilen.setAdapter(adapter);
             }
 
             @Override
-            public void onFailure(Exception e) {
-                Toast.makeText(MainActivity.this, "Tarifler yüklenemedi", Toast.LENGTH_SHORT).show();
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 
@@ -153,53 +193,46 @@ public class MainActivity extends AppCompatActivity {
             btnGozAt.setVisibility(View.GONE);
             return;
         }
-        FirebaseFirestore.getInstance().collection("users")
-                .document(user.getUid())
-                .collection("favoriler")
-                .get()
-                .addOnSuccessListener(favSnapshot -> {
-                    List<String> favoriteIds = new ArrayList<>();
-                    for (QueryDocumentSnapshot doc : favSnapshot) {
-                        favoriteIds.add(doc.getString("tarifId"));
-                    }
-                    TarifManager tarifManager = new TarifManager();
-                    tarifManager.getAll(new Callback<List<Tarif>>() {
-                        @Override
-                        public void onSuccess(List<Tarif> allTarifler) {
-                            List<Tarif> kayitliList = new ArrayList<>();
-                            for (Tarif tarif : allTarifler) {
-                                if (favoriteIds.contains(tarif.getTarifId())) {
-                                    kayitliList.add(tarif);
-                                }
-                            }
-                            updateSavedRecipeUI(kayitliList, rvKayitli, txtKayitliBos, btnGozAt);
-                        }
-
-                        @Override
-                        public void onFailure(Exception e) {
-                            Toast.makeText(MainActivity.this, "Kayıtlı tarifler yüklenemedi", Toast.LENGTH_SHORT).show();
+        tarifManager.getFavorites(new Callback<List<Tarif>>() {
+            @Override
+            public void onSuccess(List<Tarif> kayitliList) {
+                if (kayitliList.isEmpty()) {
+                    txtKayitliBos.setVisibility(View.VISIBLE);
+                    rvKayitli.setVisibility(View.GONE);
+                    btnGozAt.setVisibility(View.GONE);
+                } else {
+                    txtKayitliBos.setVisibility(View.GONE);
+                    rvKayitli.setVisibility(View.VISIBLE);
+                    btnGozAt.setVisibility(View.VISIBLE);
+                    List<Tarif> gosterilecek = kayitliList.subList(0, Math.min(6, kayitliList.size()));
+                    TarifAdapter kayitliAdapter = new TarifAdapter(gosterilecek, tarif -> {
+                        Intent intent = new Intent(MainActivity.this, TarifDetayActivity.class);
+                        intent.putExtra("tarifId", tarif.getTarifId());
+                        startActivity(intent);
+                    }, (tarif, yeniDurum) -> {
+                        if (yeniDurum) {
+                            tarifManager.addToFavorites(tarif, new Callback<Void>() {
+                                @Override public void onSuccess(Void result) {}
+                                @Override public void onFailure(Exception e) {}
+                            });
+                        } else {
+                            tarifManager.removeFromFavorites(tarif, new Callback<Void>() {
+                                @Override public void onSuccess(Void result) {}
+                                @Override public void onFailure(Exception e) {}
+                            });
                         }
                     });
-                });
-    }
+                    rvKayitli.setAdapter(kayitliAdapter);
+                }
+            }
 
-    private void updateSavedRecipeUI(List<Tarif> kayitliList, RecyclerView rvKayitli, TextView txtKayitliBos, TextView btnGozAt) {
-        if (kayitliList.isEmpty()) {
-            txtKayitliBos.setVisibility(View.VISIBLE);
-            rvKayitli.setVisibility(View.GONE);
-            btnGozAt.setVisibility(View.GONE);
-        } else {
-            txtKayitliBos.setVisibility(View.GONE);
-            rvKayitli.setVisibility(View.VISIBLE);
-            btnGozAt.setVisibility(View.VISIBLE);
-            List<Tarif> gosterilecek = kayitliList.subList(0, Math.min(6, kayitliList.size()));
-            TarifAdapter kayitliAdapter = new TarifAdapter(gosterilecek, tarif -> {
-                Intent intent = new Intent(MainActivity.this, TarifDetayActivity.class);
-                intent.putExtra("tarifId", tarif.getTarifId());
-                startActivity(intent);
-            });
-            rvKayitli.setAdapter(kayitliAdapter);
-        }
+            @Override
+            public void onFailure(Exception e) {
+                txtKayitliBos.setVisibility(View.VISIBLE);
+                rvKayitli.setVisibility(View.GONE);
+                btnGozAt.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void filterRecipes(String query) {

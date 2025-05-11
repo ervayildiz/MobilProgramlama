@@ -14,9 +14,18 @@ public class Tarif {
     private String resimId;
 
     private String resimUrl;
+    private boolean favori;
+
 
     public Tarif() {
         // Firebase için boş constructor gerekli
+    }
+    public boolean isFavori() {
+        return favori;
+    }
+
+    public void setFavori(boolean favori) {
+        this.favori = favori;
     }
 
     // Getter ve Setter metodları

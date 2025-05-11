@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.tarif.Tarif;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,14 +22,20 @@ import java.util.List;
 public class TarifAdapter extends RecyclerView.Adapter<TarifAdapter.TarifViewHolder> {
     private final List<Tarif> tarifList;
     private final OnItemClickListener listener;
+    private final FavoriToggleListener toggleListener;
 
     public interface OnItemClickListener {
         void onItemClick(Tarif tarif);
     }
 
-    public TarifAdapter(List<Tarif> tarifList, OnItemClickListener listener) {
+    public interface FavoriToggleListener {
+        void onFavoriToggled(Tarif tarif, boolean yeniDurum);
+    }
+
+    public TarifAdapter(List<Tarif> tarifList, OnItemClickListener listener, FavoriToggleListener toggleListener) {
         this.tarifList = tarifList;
         this.listener = listener;
+        this.toggleListener = toggleListener;
     }
 
     @NonNull
@@ -51,37 +58,44 @@ public class TarifAdapter extends RecyclerView.Adapter<TarifAdapter.TarifViewHol
         if (imageResId != 0) {
             holder.imageViewResim.setImageResource(imageResId);
         } else {
-            holder.imageViewResim.setImageResource(R.drawable.default_resim);  // 🔥 Yedek resim
+            holder.imageViewResim.setImageResource(R.drawable.default_resim);
         }
 
-
-        // 🔥 Bookmark Senkronizasyonu
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser == null) return;
-        String userId = currentUser.getUid();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(userId)
+                    .collection("favoriler")
+                    .whereEqualTo("tarifId", tarif.getTarifId())
+                    .get(Source.SERVER)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                            tarif.setFavori(true);
+                            holder.btnBookmark.setImageResource(R.drawable.ic_bookmark_filled);
+                        } else {
+                            tarif.setFavori(false);
+                            holder.btnBookmark.setImageResource(R.drawable.ic_bookmark_border);
+                        }
+                    });
+        }
 
-        FirebaseFirestore.getInstance()
-                .collection("users")
-                .document(userId)
-                .collection("favoriler")
-                .whereEqualTo("tarifId", tarif.getTarifId())
-                .get(Source.SERVER)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                        holder.btnBookmark.setImageResource(R.drawable.ic_bookmark_filled);
-                    } else {
-                        holder.btnBookmark.setImageResource(R.drawable.ic_bookmark_border);
-                    }
-                });
-
-        // 🔥 Tıklamalar
         holder.itemView.setOnClickListener(v -> listener.onItemClick(tarif));
+
+        holder.btnBookmark.setOnClickListener(v -> {
+            boolean yeniDurum = !tarif.isFavori();
+            tarif.setFavori(yeniDurum);
+            notifyItemChanged(holder.getAdapterPosition());
+            toggleListener.onFavoriToggled(tarif, yeniDurum);
+        });
     }
 
     @Override
     public int getItemCount() {
         return tarifList.size();
     }
+
     public void updateList(List<Tarif> newList) {
         tarifList.clear();
         tarifList.addAll(newList);
