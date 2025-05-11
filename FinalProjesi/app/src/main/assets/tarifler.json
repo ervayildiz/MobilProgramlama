@@ -1,0 +1,254 @@
+{
+  "tarifler": {
+    "limonlu_kek": {
+    "TarifId": "limonlu_kek",
+    "ad": "Limonlu Kek",
+    "kategori": "Kek",
+    "hazirlikSuresi": 30,
+    "pisirmeSuresi": 45,
+    "servisSayisi": "10-12 dilim",
+    "resimId": "limonlu_kek",
+    "resimUrl": "https://finalprojesi-43f89.web.app/images/limonlu_kek.jpg",
+    "malzemeler": "Hamur:\n- 2 su bardağı un\n- 1 poşet hamur kabartma tozu\n- 125 g oda sıcaklığında tereyağı\n- 1 su bardağı toz şeker\n- 3 yumurta\n- 1 çay bardağı süt\n- 5 yemek kaşığı limon suyu\n- 1 limon kabuğu rendesi\n- 1 poşet şekerli vanilin\n\nGlazür:\n- 1 su bardağı pudra şekeri\n- 3 yemek kaşığı limon suyu",
+    "yapilisAdimlari": "1. Kalıbı tereyağı ile yağlayın ve kalıbın taban ve yanlarına pişirme kağıdı serin.\n2. Fırını belirtilen dereceye ayarlayıp önceden ısınması için çalıştırın.\n3. Alt-üst pişirme: 170 °C, Turbo pişirme: 160 °C.\n4. Un ve hamur kabartma tozunu karıştırıp bir kaba eleyin.\n5. Tereyağı ve toz şekeri ayrı bir çırpma kabında mikserle yüksek devrinde 3 dakika çırpın.\n6. Üzerine yumurtaları teker teker ekleyerek her birini 1 dakika çırpın.\n7. Süt, limon suyu, limon kabuğu rendesi ve şekerli vanilini ekleyip kısa sürede çırpın.\n8. Hazırladığınız un karışımını ekleyip mikserin düşük devrinde 1 dakika çırpın.\n9. Hamuru kalıba döküp yayın ve pişirin.\n10. Pişirme süresinin 12-15. dakikasında hamurun kenarından 1 cm derinliğinde kesim yapın ve pişirmeye devam edin.\n11. Fırından çıkarıp kekin üzerine kürdan ile delikler açın.\n12. 3 yemek kaşığı limon suyunu kekin üzerine gezdirin.\n13. 10 dakika bekledikten sonra kalıptan çıkarıp tel ızgara üzerinde soğutun.\n14. Pudra şekerini limon suyuyla pürüzsüz kıvama gelene kadar karıştırın.\n15. Glazürü kekin üzerine dökün, 15-20 dakika donması için bekletin ve dilimleyerek servis yapın."
+  },
+  "uzak_dogu_usulu_tavuk": {
+    "TarifId": "uzak_dogu_usulu_tavuk",
+    "ad": "Uzak Doğu Usulü Tavuk",
+    "kategori": "Dünya Mutfakları",
+    "hazirlikSuresi": 10,
+    "pisirmeSuresi": 20,
+    "servisSayisi": "2-4 Kişilik",
+    "resimId": "uzak_dogu_usulu_tavuk",
+    "resimUrl": "https://finalprojesi-43f89.web.app/images/uzak_dogu_usulu_tavuk.jpg",
+    "malzemeler": "Tavuk:\n- 400-500 gram küp doğranmış tavuk eti\n- 1 diş minik doğranmış sarımsak\n- 1 çay bardağı mısır nişastası\n- 1 çay bardağı un\n- 1 çay kaşığı kabartma tozu\n- 1/2 şişe maden suyu\n- 1 adet yumurta\n- 1/2 çay kaşığı zerdeçal\n- 1/2 çay kaşığı karabiber\n- Tuz\n\nSos:\n- 4 yemek kaşığı ketçap\n- 2,5 yemek kaşığı soya sosu\n- 1,2 yemek kaşığı bal\n- 1 diş doğranmış sarımsak",
+    "yapilisAdimlari": "1. Tavukları marine etmek için tüm malzemeleri bir kapta karıştırın ve tavukları ekleyerek harmanlayın.\n2. Üzerini örtüp 2 saat buzdolabında dinlendirin.\n3. Derin bir kapta sıvı yağı ısıtın ve tavukları kızartarak bir tabağa alın.\n4. Sos için ketçap, sarımsak, bal ve soya sosunu 2 dakika kadar ocakta karıştırın.\n5. Kızarmış tavukları sos ile iyice harmanlayıp ocaktan alın.\n6. Üzerini susam ve taze soğan yapraklarıyla süsleyerek servis yapın. Afiyet olsun!"
+  },
+    "islak_hamburger": {
+      "TarifId": "evde_islak_hamburger",
+      "ad": "Evde Islak Hamburger",
+      "kategori": "Hamburger",
+      "hazirlikSuresi": 15,
+      "pisirmeSuresi": 20,
+      "servisSayisi": "4 kişilik",
+      "resimId": "islak_hamburger",
+      "resimUrl": "https://finalprojesi-43f89.web.app/images/islak_hamburger.jpg",
+      "malzemeler": "Köftesi için:\n- 500 gram dana kıyma\n- 1 adet soğan (rendelenmiş)\n- 2 diş sarımsak (rendelenmiş)\n- 1 çay kaşığı tuz\n- 1/2 çay kaşığı karabiber\n- 1/2 çay kaşığı kimyon\n\nSosu için:\n- 2 yemek kaşığı zeytinyağı\n- 2 yemek kaşığı domates salçası\n- 1 su bardağı su\n- 1 çay kaşığı tuz\n- 1/2 çay kaşığı karabiber\n- 1 çay kaşığı kekik\n\nDiğer:\n- 4 adet hamburger ekmeği",
+      "yapilisAdimlari": "- Köftesi için, dana kıyma, rendelenmiş soğan ve sarımsağı, baharatları ekleyip yoğurun. Köfte harcından parçalar koparıp şekil verin.\n- Izgarada veya tavada köfteleri pişirin.\n- Sos için, zeytinyağında domates salçasını kavurun, suyu ve baharatları ekleyip kaynatın.\n- Pişen köfteleri sosun içine alın.\n- Hamburger ekmeklerinin içine köfteyi yerleştirin, üzerine sostan gezdirin.\n- Üzerlerini alüminyum folyo ile kapatıp ısıtın ve sosla ıslatılmış şekilde servis yapın."
+  },
+    "glutensiz_limonlu_italyan_keki": {
+      "TarifId": "glutensiz_limonlu_italyan_keki",
+      "ad": "Glutensiz Limonlu İtalyan Keki",
+      "kategori": "Glutensiz",
+      "hazirlikSuresi": 20,
+      "pisirmeSuresi": 35,
+      "servisSayisi": "8 dilim",
+      "resimId": "torta_caprese",
+      "resimUrl": "https://finalprojesi-43f89.web.app/images/torta_caprese.jpg",
+      "malzemeler": "- 3 adet yumurta\n- 150 gram toz şeker\n- 200 gram badem unu\n- 100 gram tereyağı (eritilmiş)\n- 1 adet limonun kabuğu rendesi\n- 1 adet limonun suyu\n- 1 çay kaşığı kabartma tozu",
+      "yapilisAdimlari": "- Yumurtaları ve şekeri mikserle çırpın.\n- Badem unu, eritilmiş tereyağı, limon suyu ve kabuğunu ekleyip karıştırın.\n- Kabartma tozunu ilave edin.\n- Yağlı kağıt serilmiş kalıba dökün.\n- Önceden ısıtılmış 170°C fırında 35 dakika pişirin.\n- Soğuyunca dilimleyerek servis yapın."
+  },
+    "hunkar_begendi": {
+      "TarifId": "hunkar_begendi",
+      "ad": "Hünkar Beğendi",
+      "kategori": "Et",
+      "hazirlikSuresi": 30,
+      "pisirmeSuresi": 40,
+      "servisSayisi": "4 kişilik",
+      "resimId": "hunkar_begendi",
+      "resimUrl": "https://finalprojesi-43f89.web.app/images/hunkar_begendi.jpg",
+      "malzemeler": "Et sote için:\n- 500 gram kuzu eti (kuşbaşı doğranmış)\n- 2 yemek kaşığı zeytinyağı\n- 1 adet soğan\n- 2 diş sarımsak\n- 1 tatlı kaşığı domates salçası\n- 1/2 çay kaşığı tuz\n- 1/2 çay kaşığı karabiber\n\nBeğendi için:\n- 3 adet patlıcan\n- 2 yemek kaşığı un\n- 2 yemek kaşığı tereyağı\n- 1 su bardağı süt\n- 1/2 su bardağı rendelenmiş kaşar peyniri\n- 1/2 çay kaşığı tuz",
+      "yapilisAdimlari": "- Kuzu etini zeytinyağında soteleyin, doğranmış soğan ve sarımsağı ekleyin.\n- Salçayı ekleyip karıştırın, tuz ve karabiber ile tatlandırın.\n- Bir miktar su ekleyip etler yumuşayana kadar pişirin.\n- Patlıcanları közleyin, kabuklarını soyup ezin.\n- Tereyağında unu kavurun, sütü yavaşça ekleyip karıştırın.\n- Patlıcanı ekleyin, peynirle karıştırın.\n- Beğendinin üzerine eti koyarak servis edin."
+  },
+    "tarhana_corbasi": {
+      "TarifId": "yildiz_sehriye_tarhana_corbasi",
+      "ad": "Yıldız Şehriye ve Kremalı Tarhana Çorbası",
+      "kategori": "Çorba",
+      "hazirlikSuresi": 10,
+      "pisirmeSuresi": 15,
+      "servisSayisi": "4 kişilik",
+      "resimId": "tarhana_corbasi",
+      "resimUrl": "https://finalprojesi-43f89.web.app/images/tarhana_corbasi.jpg",
+      "malzemeler": "- 2 yemek kaşığı tarhana\n- 1/2 çay bardağı yıldız şehriye\n- 1 yemek kaşığı tereyağı\n- 4 su bardağı su\n- 1/2 su bardağı krema\n- 1/2 çay kaşığı tuz",
+      "yapilisAdimlari": "- Tereyağını eritin, yıldız şehriyeyi kavurun.\n- Tarhanayı suyla açıp ekleyin.\n- Sürekli karıştırarak kaynamasını sağlayın.\n- Krema ve tuzu ekleyin, 5 dakika daha pişirin.\n- Sıcak servis edin."
+  },
+     "soslu_biftek": {
+        "TarifId": "soslu_biftek",
+        "ad": "Soslu Biftek",
+        "kategori": "Et",
+        "hazirlikSuresi": 15,
+        "pisirmeSuresi": 25,
+        "servisSayisi": "4 kişilik",
+        "resimId": "soslu_biftek",
+        "resimUrl": "https://finalprojesi-43f89.web.app/images/soslu_biftek.jpg",
+        "malzemeler": "- 4 adet dana biftek\n- 2 yemek kaşığı zeytinyağı\n- 1 çay kaşığı tuz\n- 1 çay kaşığı karabiber\n\nSos için:\n- 1 yemek kaşığı tereyağı\n- 1 yemek kaşığı un\n- 1 su bardağı süt\n- 1 çay kaşığı hardal\n- 1 çay kaşığı karabiber\n- 1/2 çay kaşığı tuz",
+        "yapilisAdimlari": "- Biftekleri zeytinyağı, tuz ve karabiberle marine edin.\n- Izgarada pişirin.\n- Sos için tereyağında unu kavurun, sütü yavaşça ekleyin.\n- Hardal, tuz ve karabiber ekleyin.\n- Bifteklerin üzerine sosu gezdirerek servis edin."
+  },
+      "havuclu_cevizli_meze": {
+        "TarifId": "havuclu_cevizli_meze",
+        "ad": "Havuçlu Cevizli Meze",
+        "kategori": "Meze",
+        "hazirlikSuresi": 10,
+        "pisirmeSuresi": 10,
+        "servisSayisi": "4 kişilik",
+        "resimId": "havuclu_meze",
+        "resimUrl": "https://finalprojesi-43f89.web.app/images/havuclu_meze.jpg",
+        "malzemeler": "- 3 adet havuç\n- 1 su bardağı yoğurt\n- 2 yemek kaşığı mayonez\n- 2 diş sarımsak\n- 1 çay bardağı ceviz içi (kırılmış)\n- 2 yemek kaşığı zeytinyağı\n- 1 çay kaşığı tuz",
+        "yapilisAdimlari": "- Havuçları rendeleyin, zeytinyağında soteleyin.\n- Soğuyunca yoğurt, mayonez, ezilmiş sarımsak, ceviz ve tuzu ekleyip karıştırın.\n- Servis tabağına alıp cevizle süsleyin."
+  },
+      "pofuduk_pogaca": {
+        "TarifId": "pofuduk_pogaca",
+        "ad": "Pofuduk Poğaça",
+        "kategori": "Poğaça",
+        "hazirlikSuresi": 20,
+        "pisirmeSuresi": 25,
+        "servisSayisi": "12 adet",
+        "resimId": "pogaca",
+        "resimUrl": "https://finalprojesi-43f89.web.app/images/pogaca.jpg",
+        "malzemeler": "- 1 su bardağı süt\n- 1/2 su bardağı sıvı yağ\n- 1 adet yumurta (akı içine, sarısı üzerine)\n- 1 yemek kaşığı toz şeker\n- 1 tatlı kaşığı tuz\n- 1 paket instant maya\n- 3,5 su bardağı un",
+        "yapilisAdimlari": "- Ilık süt, maya ve şekeri karıştırıp 5 dakika bekletin.\n- Sıvı yağ, yumurta akı, tuz ve un ekleyip yoğurun.\n- Hamuru mayalandırın.\n- Şekil verip tepsiye dizin.\n- Üzerine yumurta sarısı sürüp 180°C’de 25 dakika pişirin."
+ },
+      "kremali_mantar_soslu_makarna": {
+        "TarifId": "kremali_mantar_soslu_makarna",
+        "ad": "Kremalı Mantarlı Makarna",
+        "kategori": "Makarna",
+        "hazirlikSuresi": 10,
+        "pisirmeSuresi": 15,
+        "servisSayisi": "4 kişilik",
+        "resimId": "kremali_makarna",
+        "resimUrl": "https://finalprojesi-43f89.web.app/images/kremali_makarna.jpg",
+        "malzemeler": "- 1 paket makarna\n- 200 gram mantar\n- 1 yemek kaşığı tereyağı\n- 1 yemek kaşığı zeytinyağı\n- 200 ml krema\n- 1 çay kaşığı tuz\n- 1/2 çay kaşığı karabiber",
+        "yapilisAdimlari": "- Makarnayı haşlayın, süzün.\n- Mantarları tereyağı ve zeytinyağında soteleyin.\n- Krema, tuz ve karabiber ekleyip karıştırın.\n- Makarnayı sosa ekleyin, 2-3 dakika pişirin.\n- Sıcak servis edin."
+  },
+          "ganajli_cikolatali_pasta": {
+            "TarifId": "ganajli_cikolatali_pasta",
+            "ad": "Ganajlı Çikolatalı Pasta",
+            "kategori": "Pasta",
+            "hazirlikSuresi": 30,
+            "pisirmeSuresi": 40,
+            "servisSayisi": "8 dilim",
+            "resimId": "cikolatali_pasta",
+            "resimUrl": "https://finalprojesi-43f89.web.app/images/cikolatali_pasta.jpg",
+            "malzemeler": "Pandispanya için:\n- 4 adet yumurta\n- 1 su bardağı toz şeker\n- 1 su bardağı un\n- 1/2 su bardağı kakao\n- 1 paket kabartma tozu\n\nGanaj için:\n- 200 ml krema\n- 200 gram bitter çikolata",
+            "yapilisAdimlari": "- Yumurtalar ve şekeri çırpın.\n- Un, kakao ve kabartma tozunu eleyip karıştırın.\n- 170°C’de 40 dakika pişirin.\n- Ganaj için kremayı ısıtın, çikolatayı ekleyip eritin.\n- Keki ortadan ikiye kesin, arasına ve üzerine ganaj sürün.\n- Soğutup dilimleyerek servis edin."
+          },
+          "elmali_hamur_kizartmasi": {
+            "TarifId": "elmali_hamur_kizartmasi",
+            "ad": "Elmalı Hamur Kızartması",
+            "kategori": "Hamur İşi",
+            "hazirlikSuresi": 15,
+            "pisirmeSuresi": 15,
+            "servisSayisi": "6 kişilik",
+            "resimId": "elmali_kizartma",
+            "resimUrl": "https://finalprojesi-43f89.web.app/images/elmali_kizartma.jpg",
+            "malzemeler": "- 2 adet elma\n- 1 su bardağı un\n- 1 adet yumurta\n- 1 çay bardağı süt\n- 1 çay kaşığı tarçın\n- 1 çay kaşığı kabartma tozu\n- 1 yemek kaşığı toz şeker\n- Kızartmak için sıvı yağ",
+            "yapilisAdimlari": "- Elmaları rendeleyin.\n- Yumurta, süt, şeker, un, kabartma tozu ve tarçını karıştırın.\n- Elmayı ekleyin.\n- Yağda kızartın.\n- Pudra şekeri serperek servis edin."
+          },
+          "patatesli_citir_borek": {
+            "TarifId": "patatesli_citir_borek",
+            "ad": "Patatesli Çıtır Börek",
+            "kategori": "Börek",
+            "hazirlikSuresi": 20,
+            "pisirmeSuresi": 25,
+            "servisSayisi": "6 kişilik",
+            "resimId": "patatesli_citir_borek",
+            "resimUrl": "https://finalprojesi-43f89.web.app/images/patatesli_citir_borek.jpg",
+            "malzemeler": "- 3 adet yufka\n- 3 adet haşlanmış patates\n- 1 adet soğan\n- 1 çay kaşığı tuz\n- 1 çay kaşığı karabiber\n- 1/2 çay bardağı sıvı yağ\n- Üzeri için 1 adet yumurta sarısı",
+            "yapilisAdimlari": "- Patatesleri ezin, soğanı soteleyin.\n- Baharatlarla karıştırın.\n- Yufkaları yağlayıp sarın.\n- Üzerine yumurta sarısı sürün.\n- 180°C’de 25 dakika pişirin."
+          },
+          "tiramisu": {
+            "TarifId": "tiramisu",
+            "ad": "Tiramisu",
+            "kategori": "Tatlı",
+            "hazirlikSuresi": 25,
+            "pisirmeSuresi": 0,
+            "servisSayisi": "8 kişilik",
+            "resimId": "tiramisu",
+            "resimUrl": "https://finalprojesi-43f89.web.app/images/tiramisu.jpg",
+            "malzemeler": "- 1 paket kedi dili bisküvi\n- 400 gram labne peyniri\n- 2 adet yumurta\n- 1 çay bardağı toz şeker\n- 1 su bardağı kahve (demlenmiş)\n- 2 yemek kaşığı kakao",
+            "yapilisAdimlari": "- Yumurtanın sarısı ve beyazını ayırın.\n- Sarısını şekerle çırpın, labneyi ekleyin.\n- Beyazını köpürtüp karışıma ekleyin.\n- Kedi dillerini kahveye batırın.\n- Kat kat dizin, aralarına krema sürün.\n- Üzerine kakao serpip soğutarak servis edin."
+          },
+          "citir_tavuk": {
+            "TarifId": "citir_tavuk",
+            "ad": "Çıtır Tavuk",
+            "kategori": "Tavuk",
+            "hazirlikSuresi": 20,
+            "pisirmeSuresi": 25,
+            "servisSayisi": "4 kişilik",
+            "resimId": "citir_tavuk",
+            "resimUrl": "https://finalprojesi-43f89.web.app/images/citir_tavuk.jpg",
+            "malzemeler": "Marinasyon:\n- 3 adet tavuk göğsü\n- 2 yemek kaşığı yoğurt\n- 1 adet yumurta\n- 1 tutam tuz\n- 1 tutam kırmızı toz biber\n- 1 tutam kekik\n- 1 tutam toz şeker\n- 4 yemek kaşığı zeytinyağı\n- 1.5 yemek kaşığı un\n- 1 su bardağı maden suyu\n\nKaplama: \n- 100 gram patates cipsi\n- 100 gram mısır cipsi\n\nPişirme: - 6 yemek kaşığı zeytinyağı",
+            "yapilisAdimlari": "- Cipsli çıtır tavuk için önce tavuk göğüslerinin bonfilelerini ayırıp kalan kısımlarını da benzer boyutlarda kesin.\n- Geniş bir kasede yoğurt, yumurta, tuz, un, zeytinyağı, baharatlar ve maden suyunu karıştırıp marinasyon harcını hazırlayın.\n- Tavukları marinasyonun içine koyup karıştırın. Üzerine tabakla bastırıp kaseyi streçleyin ve buzdolabında en az 1, en fazla 8 saat dinlendirin.\n- Kaplama harcı için cipsleri karışık olarak mutfak robotundan geçirip toz haline getirin. Tavukların üstündeki fazla sosu sıyırıp cipse bulayın ve ardından yağlı kağıt serilmiş, hafifçe yağlanmış tepsiye dizin. Üzerine az yağ gezdirin ve önceden ısıtılmış 200 derece fırında renkleri kızarana kadar yaklaşık 20-30 dakika pişirin.\n- Cipsli çıtır tavuk parçalarını sıcak olarak dilediğiniz soslarla ya da burger ekmeği içinde servis edebilirsiniz."
+          },
+              "yulafli_atistirmalik": {
+                "TarifId": "yulafli_atistirmalik",
+                "ad": "Yulaflı Atıştırmalık",
+                "kategori": "Atıştırmalık",
+                "hazirlikSuresi": 10,
+                "pisirmeSuresi": 15,
+                "servisSayisi": "6 kişilik",
+                "resimId": "yulafli_atistirmalik",
+                "resimUrl": "https://finalprojesi-43f89.web.app/images/yulafli_atistirmalik.jpg",
+                "malzemeler": "- 3 adet muz\n- 2 su bardağı yulaf\n- 2 yemek kaşığı badem\n- 1 yemek kaşığı kuru üzüm\n- 1 yemek kaşığı Hindistan cevizi rendesi\n- 1 yemek kaşığı bal",
+                "yapilisAdimlari": "- Muzları sulandırmadan çatal yardımıyla ezin.\n- Yulaf ve diğer malzemeleri çok sulandırmadan karıştırın. Karışımı dolapta 15-20 dakika bekletin.\n- Fırını fansız programda 160 dereceye ayarlayın.\n- Dinlenen kurabiye hamurunu avuç içinde yuvarlayarak tepsiye yerleştirin.\n- Tepsiye yerleştirdikten sonra üzerine bastırarak hamuru hafifçe yayın.\n- 15 dakika her iki yüzünü de iyice pişirin.\n- İyice soğutun ve saklama kutusuna kaldırın. Afiyet olsun!"
+          },
+          
+            "somon_tartar": {
+              "TarifId": "somon_tartar",
+              "ad": "Somon Tartar",
+              "kategori": "Deniz Ürünleri",
+              "hazirlikSuresi": 15,
+              "pisirmeSuresi": 0,
+              "servisSayisi": "2 kişilik",
+              "resimId": "somon_tartar",
+              "resimUrl": "https://finalprojesi-43f89.web.app/images/somon_tartar.jpg",
+              "malzemeler": "- 70 gram somon fileto (küp doğranmış)\n- 1 adet avokado (küp doğranmış)\n- 1/2 adet kırmızı soğan (küp doğranmış)\n- 2 dal taze soğan (kıyılmış)\n- 2 adet kornişon turşu (küp doğranmış)\n- 1 yemek kaşığı kapari (kıyılmış)\n- 1/2 adet limonun suyu\n- 1 yemek kaşığı turşu suyu\n- 2 yemek kaşığı mayonez\n- 1 tatlı kaşığı hardal\n- 1/2 çay kaşığı tuz\n\nAlt Taban İçin:\n- 1 adet bisküvi (tuzlu)\n\nÜzeri İçin:\n- 2 adet kapari (büyük boy)\n- 1 dal taze nane",
+              "yapilisAdimlari": "- Doğranmış tüm malzemeler, derin bir kasede bir araya getirin.\n- Mayonez, limon suyu, turşu suyu ve hardal ilavesiyle karıştırın.\n- Kıtır bisküvinin üzerine hazırladığınız somon tartarı yerleştirin.\n- Karpuz kapari ve taze yeşilliklerle çektirilmiş zeytinyağı ile (arzuya göre) servis edin."
+           },
+           
+            "cool_lime": {
+              "TarifId": "cool_lime",
+              "ad": "Cool Lime",
+              "kategori": "İçecek",
+              "hazirlikSuresi": 5,
+              "pisirmeSuresi": 0,
+              "servisSayisi": "1 kişilik",
+              "resimId": "cool_lime",
+              "resimUrl": "https://finalprojesi-43f89.web.app/images/cool_lime.jpg",
+              "malzemeler": "- Maden sodası\n- 1 adet limon\n- 2 yemek kaşığı esmer şeker\n- 10 adet taze nane yaprağı",
+              "yapilisAdimlari": "- Limonu 6 parçaya bölün ve 4 parçasını kenara alın. Kalan 2 parçayı iri olacak şekilde doğrayın.\n- Doğradığınız limonları büyük bir bardağın içerisine koyun. Üzerine nane yaprakları ve esmer şekeri ekleyerek hafifçe ezin.\n- Bardağın üzerine 1 parmak boşluk kalacak şekilde buz parçaları ile doldurun.\n- Maden sodasını da bardağa ilave edin. Kalan limon parçaları ve nane yaprakları ile bardağı süsleyebilirsiniz."
+            },
+            
+              "kremali_mantarli_kofte": {
+                "TarifId": "kremali_mantarli_kofte",
+                "ad": "Kremalı Mantarlı Köfte",
+                "kategori": "Köfte",
+                "hazirlikSuresi": 25,
+                "pisirmeSuresi": 30,
+                "servisSayisi": "4 kişilik",
+                "resimId": "mantarli_kofte",
+                "resimUrl": "https://finalprojesi-43f89.web.app/images/mantarli_kofte.jpg",
+                "malzemeler": "Köfte İçin:\n- 500 gram dana kıyma\n- 1 tutam tuz\n- 1 tutam karabiber\n- 1 tutam kimyon\n- 1 tutam toz kırmızı biber\n- 1 avuç kıyılmış maydanoz\n- 1 adet yumurta\n- 4 yemek kaşığı galeta unu\n- 3 yemek kaşığı un\n\nSos İçin:\n- 1/2 çay bardağı zeytinyağı\n- 2 yemek kaşığı tereyağı\n- 400 gram mantar\n- 1 adet soğan\n- 3 diş sarımsak\n- 1,5 su bardağı rendelenmiş domates\n- 1 tutam tuz\n- 1 tutam karabiber\n- 1 adet defne yaprağı\n- 1 su bardağı sıcak su\n- 1 su bardağı krema\n- 1 tatlı kaşığı hardal",
+                "yapilisAdimlari": "- Kremalı mantarlı köfte için ilk olarak köfte için derin bir kasede un hariç bütün malzemeyi yoğurun. Harçtan ceviz büyüklüğünde parçalar koparıp yuvarlayın, dışını una bulayın.\n- Geniş bir tencerede zeytinyağı ve bir yemek kaşığı tereyağını ısıtıp köftelerin dışı renk alana kadar kızartın.\n- Köfteleri kenara alın. Tencereye iri doğranmış mantarları, piyaz kesim soğanları, ince dilimlenmiş sarımsakları koyup yüksek ateşte soteleyin.\n- Sebzeler çok su salmadan tuzu, karabiberi, domates rendesini, defne yaprağını ve sıcak suyu koyup bir taşım kaynatın. Kremayı ve hardalı ekleyip karıştırın.\n- Köfteleri tencereye dikkatlice koyun, kapağı kapatıp altını kısın. 15 dakika piştikten sonra bir yemek kaşığı daha tereyağı ekleyin ve karıştırın.\n- Üzerine kıyılmış maydanoz ve zeytinyağı gezdirerek servis edin. Afiyet olsun."
+             },
+             
+              "cikolata_parcacikli_kurabiye": {
+                "TarifId": "cikolata_parcacikli_kurabiye",
+                "ad": "Çikolata Parçacıklı Kurabiye",
+                "kategori": "Kurabiye",
+                "hazirlikSuresi": 15,
+                "pisirmeSuresi": 15,
+                "servisSayisi": "8 adet",
+                "resimId": "cikolata_parcacikli_kurabiye",
+                "resimUrl": "https://finalprojesi-43f89.web.app/images/cikolata_parcacikli_kurabiye.jpg",
+                "malzemeler": "- 8 yemek kaşığı tereyağı (oda sıcaklığında)\n- 1,5 çay bardağı toz şeker\n- 3/4 çay bardağı pekmez\n- 1 adet yumurta\n- 1 yemek kaşığı nişasta\n- 1 çay kaşığı kabartma tozu\n- 1 paket vanilin\n- 1/2 çay kaşığı tuz\n- 2 çay bardağı bitter damla çikolata\n- 1 çay bardağı sütlü çikolata\n- 250 gram un\n- 5 yemek kaşığı bitter çikolata (kıyılmış)",
+                "yapilisAdimlari": "- Tereyağını oda sıcaklığında yumuşatın ve sırasıyla toz şeker, pekmez, yumurta ekleyip krema kıvamına gelene kadar çırpın.\n- Tüm kuru malzemeleri eleyerek karışıma ekleyin ve karıştırın. Karışım homojen bir hal alınca karıştırmayı durdurun.\n- Karışıma damla çikolataları ve kıyılmış bitter çikolatayı ekleyin.\n- Karışımı üzeri kapalı bir şekilde buzdolabında en az 1 saat, dilerseniz 2 güne kadar bekletin.\n- Karışım sertleştikten sonra içinden büyük parçalar koparın ve yağlı kağıt serilmiş bir tepsiye aralarında fazlaca boşluk bırakarak en fazla dört adet yerleştirin.\n- 170 derecelik fırında altları kızarana kadar 13-16 dakika pişirin.\n- Fırından çıkan kurabiyeler yumuşak olduklarından en az 5 dakika oda sıcaklığında dinlendirin. Afiyet olsun."
+              }
+      
+  }
+        
+ }
+    
+
+  
+

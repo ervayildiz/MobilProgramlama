@@ -25,13 +25,15 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         btnResetPassword.setOnClickListener(v -> {
             String email = edtEmail.getText().toString().trim();
-            if (email.isEmpty()) {
-                Toast.makeText(this, "Lütfen email girin", Toast.LENGTH_SHORT).show();
-            } else {
-                auth.sendPasswordResetEmail(email)
-                        .addOnSuccessListener(aVoid -> Toast.makeText(this, "Şifre sıfırlama maili gönderildi", Toast.LENGTH_SHORT).show())
-                        .addOnFailureListener(e -> Toast.makeText(this, "Hata: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
+            if (!ValidationUtil.isValidEmail(email)) {
+                Toast.makeText(this, "Geçersiz email", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            auth.sendPasswordResetEmail(email)
+                    .addOnSuccessListener(aVoid -> Toast.makeText(this, "Şifre sıfırlama maili gönderildi", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e -> Toast.makeText(this, "Hata: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         });
     }
 }

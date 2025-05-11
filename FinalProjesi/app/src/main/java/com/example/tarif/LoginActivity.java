@@ -5,14 +5,12 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
+import com.example.tarif.FormActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends FormActivity {
 
     private EditText edtEmail, edtPassword;
     private Button btnLogin;
@@ -35,41 +33,33 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(v -> loginUser());
 
-        txtForgotPassword.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
-            startActivity(intent);
-        });
-
-        txtRegister.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivity(intent);
-        });
-
-        txtExplore.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
+        txtForgotPassword.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class)));
+        txtRegister.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
+        txtExplore.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, MainActivity.class)));
     }
 
     private void loginUser() {
         String email = edtEmail.getText().toString().trim();
         String password = edtPassword.getText().toString();
 
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Email ve şifre giriniz", Toast.LENGTH_SHORT).show();
+        if (!isValidEmail(email)) {
+            showError("Geçersiz email");
+            return;
+        }
+
+        if (password.isEmpty()) {
+            showError("Şifre boş olamaz");
             return;
         }
 
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(this, "Giriş başarılı: " + user.getEmail(), Toast.LENGTH_SHORT).show();
-                        startMainActivity();
-                    } else {
-                        Toast.makeText(this, "Giriş başarısız: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                .addOnSuccessListener(authResult -> {
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    showSuccess("Giriş başarılı: " + user.getEmail());
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                })
+                .addOnFailureListener(this::handleFirebaseError);
     }
 
     private void startMainActivity() {

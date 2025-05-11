@@ -13,6 +13,8 @@ public class Tarif {
     private String servisSayisi;
     private String resimId;
 
+    private String resimUrl;
+
     public Tarif() {
         // Firebase için boş constructor gerekli
     }
@@ -28,4 +30,17 @@ public class Tarif {
     public int getPisirmeSuresi() { return pisirmeSuresi; }
     public String getServisSayisi() { return servisSayisi; }
     public String getResimId() { return resimId; }
+
+    public String getResimUrl() { return resimUrl; }
+
+    public void setAd(String ad) { this.ad = ad; }
+    public void setKategori(String kategori) { this.kategori = kategori; }
+    public void setMalzemeler(String malzemeler) { this.malzemeler = malzemeler; }
+    public void setYapilisAdimlari(String yapilisAdimlari) { this.yapilisAdimlari = yapilisAdimlari; }
+    public void setHazirlikSuresi(int hazirlikSuresi) { this.hazirlikSuresi = hazirlikSuresi; }
+    public void setPisirmeSuresi(int pisirmeSuresi) { this.pisirmeSuresi = pisirmeSuresi; }
+    public void setServisSayisi(String servisSayisi) { this.servisSayisi = servisSayisi; }
+    public void setResimId(String resimId) { this.resimId = resimId; }
+    public void setResimUrl(String resimUrl) { this.resimUrl = resimUrl; }
+
 }

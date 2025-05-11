@@ -6,15 +6,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.example.tarif.FormActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends FormActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -37,7 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
         Button btnLoginRedirect = findViewById(R.id.btnLoginRedirect);
 
         btnRegister.setOnClickListener(v -> registerUser());
-
         btnLoginRedirect.setOnClickListener(v -> {
             startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             finish();
@@ -52,12 +50,22 @@ public class RegisterActivity extends AppCompatActivity {
         String confirmPassword = etConfirmPassword.getText().toString().trim();
 
         if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            Toast.makeText(this, "Tüm alanları doldurun", Toast.LENGTH_SHORT).show();
+            showError("Tüm alanları doldurun");
+            return;
+        }
+
+        if (!isValidEmail(email)) {
+            showError("Geçersiz email");
+            return;
+        }
+
+        if (!isValidPassword(password)) {
+            showError("Şifre en az 8 karakter ve harf+sayı içermeli");
             return;
         }
 
         if (!password.equals(confirmPassword)) {
-            Toast.makeText(this, "Şifreler eşleşmiyor", Toast.LENGTH_SHORT).show();
+            showError("Şifreler eşleşmiyor");
             return;
         }
 
@@ -72,16 +80,12 @@ public class RegisterActivity extends AppCompatActivity {
                     db.collection("users").document(userId)
                             .set(userMap)
                             .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(this, "Kayıt başarılı! Giriş yapabilirsiniz.", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(this, LoginActivity.class));  // LoginActivity'ye yönlendiriliyor
+                                showSuccess("Kayıt başarılı! Giriş yapabilirsiniz.");
+                                startActivity(new Intent(this, LoginActivity.class));
                                 finish();
                             })
-                            .addOnFailureListener(e -> {
-                                Toast.makeText(this, "Firestore hatası: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            });
+                            .addOnFailureListener(this::handleFirebaseError);
                 })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Authentication hatası: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+                .addOnFailureListener(this::handleFirebaseError);
     }
 }

@@ -50,6 +50,8 @@
         <activity android:name=".ChangePasswordActivity" />
         <activity android:name=".SavedRecipesActivity" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".TarifImportActivity" />
+
 
     </application>
 

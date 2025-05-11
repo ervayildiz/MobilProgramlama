@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tarif.data.Callback;
+import com.example.tarif.data.TarifManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,6 +31,9 @@ public class SavedRecipesActivity extends AppCompatActivity {
     private TarifAdapter adapter;
     private FirebaseFirestore firestore;
     private DatabaseReference databaseReference;
+    private RecyclerView rvKayitli;
+    private TextView txtBos;
+    private List<Tarif> savedTarifList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,80 +69,68 @@ public class SavedRecipesActivity extends AppCompatActivity {
             return false;
         });
 
-        // RecyclerView ayarları
-        RecyclerView recyclerView = findViewById(R.id.rv_saved_recipes);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new TarifAdapter(new ArrayList<>(), tarif -> {
-            Intent intent = new Intent(this, TarifDetayActivity.class);
+        rvKayitli = findViewById(R.id.rv_saved_recipes);
+        txtBos = findViewById(R.id.txtEmptyMessage);
+        rvKayitli.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter = new TarifAdapter(savedTarifList, tarif -> {
+            Intent intent = new Intent(SavedRecipesActivity.this, TarifDetayActivity.class);
             intent.putExtra("tarifId", tarif.getTarifId());
             startActivity(intent);
         });
-        recyclerView.setAdapter(adapter);
+        rvKayitli.setAdapter(adapter);
 
         loadSavedRecipes();
     }
 
     private void loadSavedRecipes() {
-        TextView txtEmptyMessage = findViewById(R.id.txtEmptyMessage);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
         if (user == null) {
-            adapter.updateList(new ArrayList<>());
-            txtEmptyMessage.setVisibility(View.VISIBLE);
-            txtEmptyMessage.setText("Favori tariflerinizi görmek için giriş yapın.");
-        } else {
-            txtEmptyMessage.setVisibility(View.GONE);
-            FirebaseFirestore.getInstance().collection("users")
-                    .document(user.getUid())
-                    .collection("favoriler")
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                            List<String> favoriteIds = new ArrayList<>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                favoriteIds.add(document.getString("tarifId"));
-                            }
-
-                            FirebaseDatabase.getInstance().getReference("tarifler")
-                                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            List<Tarif> savedRecipes = new ArrayList<>();
-                                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                                Tarif tarif = dataSnapshot.getValue(Tarif.class);
-                                                if (tarif != null) {
-                                                    tarif.setTarifId(dataSnapshot.getKey());
-                                                    if (favoriteIds.contains(tarif.getTarifId())) {
-                                                        savedRecipes.add(tarif);
-                                                    }
-                                                }
-                                            }
-
-                                            if (savedRecipes.isEmpty()) {
-                                                txtEmptyMessage.setVisibility(View.VISIBLE);
-                                                txtEmptyMessage.setText("Henüz favori tarifiniz yok.");
-                                            } else {
-                                                txtEmptyMessage.setVisibility(View.GONE);
-                                            }
-                                            adapter.updateList(savedRecipes);
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-                                            Toast.makeText(SavedRecipesActivity.this,
-                                                    "Tarifler yüklenirken hata: " + error.getMessage(),
-                                                    Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                        } else {
-                            txtEmptyMessage.setVisibility(View.VISIBLE);
-                            txtEmptyMessage.setText("Henüz favori tarifiniz yok.");
-                            adapter.updateList(new ArrayList<>());
-                        }
-                    });
+            txtBos.setVisibility(View.VISIBLE);
+            rvKayitli.setVisibility(View.GONE);
+            return;
         }
 
+        FirebaseFirestore.getInstance().collection("users")
+                .document(user.getUid())
+                .collection("favoriler")
+                .get()
+                .addOnSuccessListener(favSnapshot -> {
+                    List<String> favoriIds = new ArrayList<>();
+                    for (QueryDocumentSnapshot doc : favSnapshot) {
+                        favoriIds.add(doc.getString("tarifId"));
+                    }
+
+                    TarifManager tarifManager = new TarifManager();
+                    tarifManager.getAll(new Callback<List<Tarif>>() {
+                        @Override
+                        public void onSuccess(List<Tarif> result) {
+                            List<Tarif> kayitliList = new ArrayList<>();
+                            for (Tarif tarif : result) {
+                                if (favoriIds.contains(tarif.getTarifId())) {
+                                    kayitliList.add(tarif);
+                                }
+                            }
+
+                            if (kayitliList.isEmpty()) {
+                                txtBos.setVisibility(View.VISIBLE);
+                                rvKayitli.setVisibility(View.GONE);
+                            } else {
+                                txtBos.setVisibility(View.GONE);
+                                rvKayitli.setVisibility(View.VISIBLE);
+                                savedTarifList.clear();
+                                savedTarifList.addAll(kayitliList);
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            Toast.makeText(SavedRecipesActivity.this, "Kayıtlı tarifler yüklenemedi", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                });
     }
 
 
