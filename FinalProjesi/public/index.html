@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tarif Detayı</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <style>
+    body {
+      font-family: "Helvetica Neue", sans-serif;
+      background-color: #ffffff;
+      color: #333;
+      padding: 24px;
+      max-width: 600px;
+      margin: auto;
+    }
+    .image {
+      width: 100%;
+      background-color: #f9e3e1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 220px;
+      margin-bottom: 16px;
+      border-radius: 16px;
+    }
+    .image img {
+      max-height: 180px;
+    }
+    .section-title {
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+    .text-content {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .btn {
+      display: block;
+      width: 95%;
+      margin-bottom: 20px;
+      padding: 14px;
+      background: #5b634e;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      text-decoration: none;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+  <a href="https://play.google.com/store/apps/details?id=com.example.tarif" class="btn">
+    Daha fazla tarif için uygulamayı indir
+  </a>
+
+  <div class="image">
+    <img id="image" src="" alt="Tarif Görseli" />
+  </div>
+
+  <h1 id="title"></h1>
+  <div class="section-title">Kategori</div>
+  <div id="category" class="text-content"></div>
+  <div class="section-title">Malzemeler</div>
+  <div id="ingredients" class="text-content"></div>
+  <div class="section-title">Yapılış</div>
+  <div id="steps" class="text-content"></div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "API_KEY",
+      authDomain: "finalprojesi-43f89.firebaseapp.com",
+      databaseURL: "https://finalprojesi-43f89-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "finalprojesi-43f89",
+      storageBucket: "finalprojesi-43f89.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
+  
+    firebase.initializeApp(firebaseConfig);
+  
+    const pathSegments = window.location.pathname.split("/");
+const tarifId = pathSegments[pathSegments.length - 1] || pathSegments[pathSegments.length - 2];
+
+firebase.database().ref('tarifler/' + tarifId).once('value').then(snapshot => {
+  const data = snapshot.val();
+  console.log("📦 Tarif verisi geldi:", data);
+  if (data) {
+    document.getElementById('title').textContent = data.ad || 'Tarif';
+    document.getElementById('category').textContent = data.kategori || '';
+    document.getElementById('ingredients').textContent = data.malzemeler || '';
+    document.getElementById('steps').textContent = data.yapilisAdimlari || '';
+
+    if (data.resimUrl) {
+      document.getElementById('image').src = data.resimUrl;
+    } else {
+      document.querySelector('.image').style.display = 'none';
+    }
+  } else {
+    document.getElementById('title').textContent = "Tarif bulunamadı.";
+  }
+});
+
+
+  </script>
+  
+</body>
+</html>

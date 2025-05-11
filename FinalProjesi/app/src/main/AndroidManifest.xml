@@ -30,7 +30,21 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".TarifListesiActivity" />
         <activity android:name=".KategoriActivity" />
-        <activity android:name=".TarifDetayActivity" />
+        <!-- Deep link ile tarif açılışı -->
+        <activity android:name=".TarifDetayActivity"
+            android:exported="true">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="finalprojesi-43f89.web.app"
+                    android:pathPrefix="/tarif" />
+            </intent-filter>
+        </activity>
+
+
         <activity android:name=".ProfileActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".ChangePasswordActivity" />

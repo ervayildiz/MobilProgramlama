@@ -12,13 +12,23 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import com.google.firebase.firestore.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import android.net.Uri;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -100,6 +110,27 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        // Dinamik link kontrolü (mevcut kodu silmeden ekleme)
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData data) {
+                        Uri deepLink = null;
+                        if (data != null) {
+                            deepLink = data.getLink();
+                            if (deepLink != null && deepLink.getQueryParameter("id") != null) {
+                                String tarifId = deepLink.getQueryParameter("id");
+
+                                // Tarif detay ekranına yönlendir
+                                Intent i = new Intent(MainActivity.this, TarifDetayActivity.class);
+                                i.putExtra("tarifId", tarifId);
+                                startActivity(i);
+                            }
+                        }
+                    }
+                });
     }
 
     private void loadRecipes(RecyclerView rvOnerilen) {
@@ -117,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 allTarifList.clear();
                 allTarifList.addAll(tarifList); // <-- BURAYA EKLE
 
+                Collections.shuffle(tarifList); // rastgele sırala
                 List<Tarif> gosterilecek = tarifList.subList(0, Math.min(6, tarifList.size()));
                 TarifAdapter adapter = new TarifAdapter(gosterilecek, tarif -> {
                     Intent intent = new Intent(MainActivity.this, TarifDetayActivity.class);

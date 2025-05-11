@@ -1,5 +1,7 @@
 package com.example.tarif;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +20,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.Source;
 
@@ -39,9 +44,6 @@ public class TarifDetayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tarif_detay);
 
-
-
-        // Firebase bağlantıları
         databaseReference = FirebaseDatabase.getInstance().getReference("tarifler");
         firestore = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -53,31 +55,32 @@ public class TarifDetayActivity extends AppCompatActivity {
         }
         userId = user.getUid();
 
-        // View'ları bağla
         ImageView ivRecipeImage = findViewById(R.id.iv_recipe_image);
         TextView tvRecipeName = findViewById(R.id.tv_recipe_name);
         TextView tvCategory = findViewById(R.id.tv_category);
         TextView tvIngredients = findViewById(R.id.tv_ingredients);
         TextView tvSteps = findViewById(R.id.tv_steps);
         btnBookmark = findViewById(R.id.btnBookmark);
-
-        // Bookmark butonunu görünür yap
         btnBookmark.setVisibility(View.VISIBLE);
 
-        // Intent'ten tarif ID'sini al
-        tarifId = getIntent().getStringExtra("tarifId");
+        Uri data = getIntent().getData();
+        if (data != null && data.getQueryParameter("id") != null) {
+            tarifId = data.getQueryParameter("id");
+        }
+
+        if (tarifId == null) {
+            tarifId = getIntent().getStringExtra("tarifId");
+        }
+
         if (tarifId == null || tarifId.isEmpty()) {
             Toast.makeText(this, "Tarif bilgisi yüklenemedi", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
-        // Favori durumunu kontrol et
         checkFavoriteStatus();
 
-        // Bookmark butonuna tıklama olayı
         btnBookmark.setOnClickListener(v -> {
-            Log.d("BOOKMARK", "Tıklandı"); // 🔥 Tıklama kontrolü
             if (isFavorite) {
                 removeFromFavorites();
             } else {
@@ -85,19 +88,32 @@ public class TarifDetayActivity extends AppCompatActivity {
             }
         });
 
-        // Firebase'den tarif detaylarını çek
+        findViewById(R.id.btnShare).setOnClickListener(v -> {
+            Log.d("SHARE", "Paylaş butonuna tıklandı");
+
+            String tarifBaslik = tvRecipeName.getText().toString();
+            String shareLink = "https://finalprojesi-43f89.web.app/tarif/" + tarifId;
+
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, tarifBaslik + "\n" + shareLink);
+            shareIntent.setType("text/plain");
+            startActivity(Intent.createChooser(shareIntent, "Tarifi paylaş"));
+        });
+
+
+
+
         databaseReference.child(tarifId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Tarif tarif = snapshot.getValue(Tarif.class);
                 if (tarif != null) {
-                    // Verileri view'lara yerleştir
                     tvRecipeName.setText(tarif.getAd() != null ? tarif.getAd() : "");
                     tvCategory.setText(tarif.getKategori() != null ? tarif.getKategori() : "");
                     tvIngredients.setText(tarif.getMalzemeler() != null ? tarif.getMalzemeler() : "");
                     tvSteps.setText(tarif.getYapilisAdimlari() != null ? tarif.getYapilisAdimlari() : "");
 
-                    // Resim yükleme (resimId'ye göre)
                     try {
                         int resId = getResources().getIdentifier(
                                 tarif.getResimId(), "drawable", getPackageName());
@@ -128,35 +144,13 @@ public class TarifDetayActivity extends AppCompatActivity {
                 .document(userId)
                 .collection("favoriler")
                 .whereEqualTo("tarifId", tarifId)
-                .get(Source.SERVER) // 🔥 Server'dan oku
+                .get(Source.SERVER)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         isFavorite = !task.getResult().isEmpty();
-                        Log.d("FAVORI_STATUS", "Favori bulundu mu: " + isFavorite); // 🔥 Favori durumu
                         updateBookmarkIcon();
                     } else {
                         Log.e("FAVORI_CHECK", "Hata: " + task.getException().getMessage());
-                    }
-                });
-
-
-    }
-
-
-    private void toggleFavorite() {
-        if (isFavorite) {
-            removeFromFavorites();
-        } else {
-            addToFavorites();
-        }
-    }
-    private void removeOldFavorites() {
-        FirebaseFirestore.getInstance().collection("favoriler").get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            document.getReference().delete();
-                        }
                     }
                 });
     }
@@ -166,7 +160,7 @@ public class TarifDetayActivity extends AppCompatActivity {
         favorite.put("tarifId", tarifId);
         favorite.put("timestamp", FieldValue.serverTimestamp());
 
-        FirebaseFirestore.getInstance().collection("users")
+        firestore.collection("users")
                 .document(userId)
                 .collection("favoriler")
                 .add(favorite)
@@ -178,11 +172,10 @@ public class TarifDetayActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Log.e("FAVORI_ERROR", "Hata: " + e.getMessage());
                 });
-
     }
 
     private void removeFromFavorites() {
-        FirebaseFirestore.getInstance().collection("users")
+        firestore.collection("users")
                 .document(userId)
                 .collection("favoriler")
                 .whereEqualTo("tarifId", tarifId)
@@ -202,7 +195,6 @@ public class TarifDetayActivity extends AppCompatActivity {
                         }
                     }
                 });
-
     }
 
     private void updateBookmarkIcon() {
