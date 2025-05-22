@@ -3,6 +3,7 @@ package com.example.tarif;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.example.tarif.FormActivity;
 import com.google.firebase.auth.AuthCredential;
@@ -23,6 +24,9 @@ public class ChangePasswordActivity extends FormActivity {
         editTextOldPassword = findViewById(R.id.editTextOldPassword);
         editTextNewPassword = findViewById(R.id.editTextNewPassword);
         btnChangePassword = findViewById(R.id.btnChangePassword);
+
+        ImageView btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> onBackPressed());
 
         btnChangePassword.setOnClickListener(v -> changePassword());
     }

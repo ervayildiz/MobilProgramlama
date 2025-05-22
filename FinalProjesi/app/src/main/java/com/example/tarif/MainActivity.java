@@ -22,6 +22,8 @@ import com.example.tarif.data.Callback;
 import com.example.tarif.data.TarifManager;
 import com.example.tarif.Tarif;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
@@ -104,24 +106,30 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
         bottomNav.setSelectedItemId(R.id.nav_home);
+
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_home) return true;
-            else if (id == R.id.nav_categories) {
-                startActivity(new Intent(this, KategoriActivity.class));
-                finish();
-                return true;
+
+            Intent intent = null;
+            if (id == R.id.nav_categories) {
+                intent = new Intent(this, KategoriActivity.class);
             } else if (id == R.id.nav_saved) {
-                startActivity(new Intent(this, SavedRecipesActivity.class));
-                finish();
-                return true;
+                intent = new Intent(this, SavedRecipesActivity.class);
             } else if (id == R.id.nav_profile) {
-                startActivity(new Intent(this, ProfileActivity.class));
-                finish();
-                return true;
+                intent = new Intent(this, ProfileActivity.class);
             }
-            return false;
+
+            if (intent != null) {
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+            return true;
         });
+
+
+
 
         FirebaseDynamicLinks.getInstance()
                 .getDynamicLink(getIntent())
@@ -233,6 +241,12 @@ public class MainActivity extends AppCompatActivity {
                 btnGozAt.setVisibility(View.GONE);
             }
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav.setSelectedItemId(R.id.nav_home); // Bu sayfaya özel
     }
 
     private void filterRecipes(String query) {

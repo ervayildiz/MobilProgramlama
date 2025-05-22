@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class KategoriActivity extends AppCompatActivity {
 
         // Kategorileri yükle
         loadKategoriler();
+        setupBottomNavigation();
     }
 
     private void loadKategoriler() {
@@ -48,25 +50,34 @@ public class KategoriActivity extends AppCompatActivity {
 
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
+            if (id == R.id.nav_categories) return true;
+
+            Intent intent = null;
             if (id == R.id.nav_home) {
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
-                return true;
-            } else if (id == R.id.nav_categories) {
-                // Zaten bu sayfadayız
-                return true;
+                intent = new Intent(this, MainActivity.class);
             } else if (id == R.id.nav_saved) {
-                startActivity(new Intent(this, SavedRecipesActivity.class));
-                finish();
-                return true;
+                intent = new Intent(this, SavedRecipesActivity.class);
             } else if (id == R.id.nav_profile) {
-                startActivity(new Intent(this, ProfileActivity.class));
-                finish();
-                return true;
+                intent = new Intent(this, ProfileActivity.class);
             }
-            return false;
+
+            if (intent != null) {
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+            return true;
         });
+
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav.setSelectedItemId(R.id.nav_categories); // Bu KategoriActivity içindir
+    }
+
 
     public static List<Kategori> getKategoriListesiStatic() {
         List<Kategori> kategoriList = new ArrayList<>();

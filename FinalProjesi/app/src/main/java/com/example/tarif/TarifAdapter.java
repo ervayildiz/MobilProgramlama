@@ -53,13 +53,21 @@ public class TarifAdapter extends RecyclerView.Adapter<TarifAdapter.TarifViewHol
         holder.textViewIsim.setText(tarif.getAd());
         holder.textViewKategori.setText(tarif.getKategori());
 
-        int imageResId = holder.itemView.getContext().getResources()
-                .getIdentifier(tarif.getResimId(), "drawable", holder.itemView.getContext().getPackageName());
-        if (imageResId != 0) {
-            holder.imageViewResim.setImageResource(imageResId);
+        String resimAdi = tarif.getResimId();
+        if (resimAdi != null && !resimAdi.isEmpty()) {
+            int imageResId = holder.itemView.getContext().getResources()
+                    .getIdentifier(resimAdi, "drawable", holder.itemView.getContext().getPackageName());
+
+            if (imageResId != 0) {
+                holder.imageViewResim.setImageResource(imageResId);
+            } else {
+                holder.imageViewResim.setImageResource(R.drawable.default_resim);
+            }
         } else {
             holder.imageViewResim.setImageResource(R.drawable.default_resim);
         }
+
+
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {

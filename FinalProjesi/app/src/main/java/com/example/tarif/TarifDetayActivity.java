@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -62,6 +63,9 @@ public class TarifDetayActivity extends AppCompatActivity {
         TextView tvSteps = findViewById(R.id.tv_steps);
         btnBookmark = findViewById(R.id.btnBookmark);
         btnBookmark.setVisibility(View.VISIBLE);
+
+        ImageView btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> onBackPressed());
 
         Uri data = getIntent().getData();
         if (data != null && data.getQueryParameter("id") != null) {

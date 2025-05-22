@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -18,6 +20,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView txtNameSurname;
+    private ImageView imageProfile;
+
     private Button btnLogout, btnEditProfile, btnChangePassword, btnLogin, btnRegister;
 
     @Override
@@ -33,6 +37,8 @@ public class ProfileActivity extends AppCompatActivity {
         btnChangePassword = findViewById(R.id.btnChangePassword);
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
+        imageProfile = findViewById(R.id.imageProfile);
+
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -91,24 +97,27 @@ public class ProfileActivity extends AppCompatActivity {
 
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
+            if (id == R.id.nav_profile) return true;
+
+            Intent intent = null;
             if (id == R.id.nav_home) {
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
-                return true;
+                intent = new Intent(this, MainActivity.class);
             } else if (id == R.id.nav_categories) {
-                startActivity(new Intent(this, KategoriActivity.class));
-                finish();
-                return true;
+                intent = new Intent(this, KategoriActivity.class);
             } else if (id == R.id.nav_saved) {
-                startActivity(new Intent(this, SavedRecipesActivity.class));
-                finish();
-                return true;
-            } else if (id == R.id.nav_profile) {
-                return true;
+                intent = new Intent(this, SavedRecipesActivity.class);
             }
-            return false;
+
+            if (intent != null) {
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+            return true;
         });
+
     }
+
 
     private void loadUserData(String userId) {
         FirebaseFirestore.getInstance().collection("users")
@@ -117,10 +126,35 @@ public class ProfileActivity extends AppCompatActivity {
                 .addOnSuccessListener(document -> {
                     String name = document.getString("name");
                     String surname = document.getString("surname");
+                    String avatarIcon = document.getString("avatarIcon");
+
                     txtNameSurname.setText(name + " " + surname);
+
+                    if (avatarIcon != null && !avatarIcon.isEmpty()) {
+                        int resId = getResources().getIdentifier(avatarIcon, "drawable", getPackageName());
+                        if (resId != 0) {
+                            imageProfile.setImageResource(resId);
+                        } else {
+                            imageProfile.setImageResource(R.drawable.ic_profile_default);
+                        }
+                    } else {
+                        imageProfile.setImageResource(R.drawable.ic_profile_default);
+                    }
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Bilgiler yüklenemedi", Toast.LENGTH_SHORT).show();
                 });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            loadUserData(user.getUid());
+        }
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav.setSelectedItemId(R.id.nav_profile);
+    }
+
 }

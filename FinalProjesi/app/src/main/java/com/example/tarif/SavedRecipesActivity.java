@@ -15,6 +15,7 @@ import com.example.tarif.data.Callback;
 import com.example.tarif.data.TarifManager;
 import com.example.tarif.Tarif;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.List;
 
@@ -34,29 +35,34 @@ public class SavedRecipesActivity extends AppCompatActivity {
         rvKayitli.setLayoutManager(new LinearLayoutManager(this));
 
         loadSavedRecipes();
+
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
         bottomNav.setSelectedItemId(R.id.nav_saved);
+
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
+            if (id == R.id.nav_saved) return true;
+
+            Intent intent = null;
             if (id == R.id.nav_home) {
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
-                return true;
+                intent = new Intent(this, MainActivity.class);
             } else if (id == R.id.nav_categories) {
-                startActivity(new Intent(this, KategoriActivity.class));
-                finish();
-                return true;
-            } else if (id == R.id.nav_saved) return true;
-            else if (id == R.id.nav_profile) {
-                startActivity(new Intent(this, ProfileActivity.class));
-                finish();
-                return true;
+                intent = new Intent(this, KategoriActivity.class);
+            } else if (id == R.id.nav_profile) {
+                intent = new Intent(this, ProfileActivity.class);
             }
-            return false;
+
+            if (intent != null) {
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+            return true;
         });
+
     }
 
-    private void loadSavedRecipes() {
+        private void loadSavedRecipes() {
         tarifManager.getFavorites(new Callback<List<Tarif>>() {
             @Override
             public void onSuccess(List<Tarif> savedTarifList) {
@@ -98,4 +104,12 @@ public class SavedRecipesActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav.setSelectedItemId(R.id.nav_saved);
+        loadSavedRecipes();
+    }
+
 } 

@@ -25,6 +25,22 @@
         <item name="chipStrokeWidth">1dp</item>
     </style>
 
+    <style name="NoBackgroundBottomNav" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="BottomNavigationActiveIndicatorStyle" parent="">
+        <item name="android:backgroundTint">@android:color/transparent</item>
+    </style>
+
+    <style name="BottomNavigationStyle" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemIconTint">@color/bottom_nav_color</item>
+        <item name="itemTextColor">@color/bottom_nav_color</item>
+        <item name="itemActiveIndicatorStyle">@style/BottomNavigationActiveIndicatorStyle</item>
+    </style>
+
+
+
     <!-- Text Styles -->
     <style name="Text" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/text_primary</item>

@@ -1,6 +1,7 @@
 package com.example.tarif.data;
 
 import com.example.tarif.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.*;
 
 import java.util.ArrayList;
@@ -33,9 +34,11 @@ public class UserManager extends CollectionManager<User> {
 
     @Override
     public void save(User user, Callback<Void> callback) {
-        getCollection().document(user.getId())
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        getCollection().document(userId)
                 .set(user)
                 .addOnSuccessListener(aVoid -> callback.onSuccess(null))
                 .addOnFailureListener(callback::onFailure);
     }
+
 }
