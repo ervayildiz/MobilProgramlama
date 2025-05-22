@@ -1,12 +1,15 @@
-package com.example.tarif;
+package com.example.tarif.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.tarif.models.Kategori;
+import com.example.tarif.adapters.KategoriAdapter;
+import com.example.tarif.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.List;

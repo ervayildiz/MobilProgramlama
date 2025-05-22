@@ -1,6 +1,4 @@
-package com.example.tarif;
-
-import java.io.Serializable;
+package com.example.tarif.models;
 
 public class Tarif {
     private String TarifId;

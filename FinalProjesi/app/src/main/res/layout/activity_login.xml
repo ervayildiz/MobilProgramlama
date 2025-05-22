@@ -8,7 +8,7 @@
     android:padding="24dp"
     android:gravity="center"
     android:background="@color/primaryColor"
-    tools:context=".LoginActivity">
+    tools:context=".activities.LoginActivity">
 
     <!-- Logo -->
 

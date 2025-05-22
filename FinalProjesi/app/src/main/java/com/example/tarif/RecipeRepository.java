@@ -4,9 +4,11 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.tarif.models.Tarif;
 
 public class RecipeRepository {
     private static final String COLLECTION_NAME = "tarifler";

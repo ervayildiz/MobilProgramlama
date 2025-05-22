@@ -1,4 +1,4 @@
-package com.example.tarif;
+package com.example.tarif.models;
 
 public class User {
     private String id;

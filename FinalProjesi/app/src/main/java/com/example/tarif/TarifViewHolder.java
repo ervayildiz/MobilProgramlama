@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
+import com.example.tarif.models.Tarif;
+
 public class TarifViewHolder extends RecyclerView.ViewHolder {
     private final TextView tvIsim;
     private final TextView tvKategori;

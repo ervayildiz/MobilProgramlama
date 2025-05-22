@@ -5,6 +5,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import com.example.tarif.models.Tarif;
+
 public class FirebaseRepository {
     private final FirebaseFirestore db;
     private final CollectionReference tariflerRef;

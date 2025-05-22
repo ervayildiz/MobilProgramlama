@@ -2,9 +2,11 @@ package com.example.tarif;
 
 import android.content.Context;
 import android.util.Log;
-import com.google.android.gms.tasks.OnCompleteListener;
+
 import java.util.List;
 import java.util.UUID;
+
+import com.example.tarif.models.Tarif;
 
 public class JsonToFirebaseMigrator {
     public static void migrate(Context context) {

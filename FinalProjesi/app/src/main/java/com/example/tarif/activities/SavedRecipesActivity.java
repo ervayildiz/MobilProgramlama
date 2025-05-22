@@ -1,6 +1,6 @@
 // Path: FinalProjesi/app/src/main/java/com/example/tarif/SavedRecipesActivity.java
 
-package com.example.tarif;
+package com.example.tarif.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.tarif.TarifAdapter;
+
+import com.example.tarif.R;
+import com.example.tarif.models.Tarif;
+import com.example.tarif.adapters.TarifAdapter;
 import com.example.tarif.data.Callback;
 import com.example.tarif.data.TarifManager;
-import com.example.tarif.Tarif;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.List;
 

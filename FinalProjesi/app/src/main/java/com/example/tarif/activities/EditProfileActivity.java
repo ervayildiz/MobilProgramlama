@@ -1,4 +1,4 @@
-package com.example.tarif;
+package com.example.tarif.activities;
 
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.tarif.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;

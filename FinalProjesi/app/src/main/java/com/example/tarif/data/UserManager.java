@@ -1,6 +1,6 @@
 package com.example.tarif.data;
 
-import com.example.tarif.User;
+import com.example.tarif.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.*;
 

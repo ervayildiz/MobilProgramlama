@@ -2,7 +2,7 @@
 
 package com.example.tarif.data;
 
-import com.example.tarif.Tarif;
+import com.example.tarif.models.Tarif;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;

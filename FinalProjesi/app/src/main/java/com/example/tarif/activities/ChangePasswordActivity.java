@@ -1,11 +1,12 @@
-package com.example.tarif;
+package com.example.tarif.activities;
 
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+
 import com.example.tarif.FormActivity;
+import com.example.tarif.R;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
