@@ -2,7 +2,7 @@ package com.example.tarif.activities;
 
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.tarif.activities.utils.ValidationUtil;
+import com.example.tarif.utils.ValidationUtil;
 
 public abstract class FormActivity extends AppCompatActivity {
 
