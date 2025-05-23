@@ -1,4 +1,4 @@
-package com.example.tarif;
+package com.example.tarif.activities.utils;
 
 public class ValidationUtil {
     public static boolean isValidEmail(String email) {

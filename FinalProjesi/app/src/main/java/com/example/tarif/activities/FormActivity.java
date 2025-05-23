@@ -1,8 +1,8 @@
-package com.example.tarif;
+package com.example.tarif.activities;
 
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.tarif.ValidationUtil;
+import com.example.tarif.activities.utils.ValidationUtil;
 
 public abstract class FormActivity extends AppCompatActivity {
 
