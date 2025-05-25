@@ -38,11 +38,13 @@ public class KategoriActivity extends AppCompatActivity {
     private void loadKategoriler() {
         List<Kategori> kategoriList = getKategoriListesiStatic();
 
-        kategoriAdapter = new KategoriAdapter(kategoriList, kategori -> {
-            Intent intent = new Intent(KategoriActivity.this, TarifListesiActivity.class);
+        kategoriAdapter = new KategoriAdapter(this, kategoriList, kategori -> {
+            // kategoriye tıklandığında yapılacaklar
+            Intent intent = new Intent(this, TarifListesiActivity.class);
             intent.putExtra("kategori", kategori.getIsim());
             startActivity(intent);
         });
+
 
         recyclerView.setAdapter(kategoriAdapter);
     }
@@ -84,6 +86,7 @@ public class KategoriActivity extends AppCompatActivity {
 
     public static List<Kategori> getKategoriListesiStatic() {
         List<Kategori> kategoriList = new ArrayList<>();
+        kategoriList.add(0, new Kategori("Tüm Tarifler", R.drawable.kategori_tum_tarifler));
         kategoriList.add(new Kategori("Tatlı", R.drawable.ic_tatli));
         kategoriList.add(new Kategori("Tavuk", R.drawable.ic_tavuk));
         kategoriList.add(new Kategori("Atıştırmalık", R.drawable.ic_atistirmalik));

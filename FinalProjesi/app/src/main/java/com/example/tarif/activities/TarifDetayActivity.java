@@ -1,5 +1,7 @@
 package com.example.tarif.activities;
 
+import static android.content.Intent.getIntent;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.tarif.R;
 import com.example.tarif.models.Tarif;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +31,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.Source;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TarifDetayActivity extends AppCompatActivity {
@@ -43,7 +47,6 @@ public class TarifDetayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tarif_detay);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("tarifler");
         firestore = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -59,6 +62,9 @@ public class TarifDetayActivity extends AppCompatActivity {
         TextView tvCategory = findViewById(R.id.tv_category);
         TextView tvIngredients = findViewById(R.id.tv_ingredients);
         TextView tvSteps = findViewById(R.id.tv_steps);
+        TextView tvHazirlikSure = findViewById(R.id.tvHazirlikSure);
+        TextView tvPisirmeSure = findViewById(R.id.tvPisirmeSure);
+        TextView tvServisSayisi = findViewById(R.id.tvServisSayisi);
         btnBookmark = findViewById(R.id.btnBookmark);
         btnBookmark.setVisibility(View.VISIBLE);
 
@@ -66,19 +72,25 @@ public class TarifDetayActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> onBackPressed());
 
         Uri data = getIntent().getData();
-        if (data != null && data.getQueryParameter("id") != null) {
-            tarifId = data.getQueryParameter("id");
+        final boolean deepLinktenGeldik;
+
+        if (data != null) {
+            List<String> segments = data.getPathSegments();
+            if (segments.size() >= 2 && segments.get(0).equals("tarif")) {
+                tarifId = segments.get(1);
+                deepLinktenGeldik = true;
+            } else {
+                deepLinktenGeldik = false;
+            }
+        } else {
+            deepLinktenGeldik = false;
         }
+
 
         if (tarifId == null) {
             tarifId = getIntent().getStringExtra("tarifId");
         }
 
-        if (tarifId == null || tarifId.isEmpty()) {
-            Toast.makeText(this, "Tarif bilgisi yüklenemedi", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
 
         checkFavoriteStatus();
 
@@ -91,54 +103,63 @@ public class TarifDetayActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.btnShare).setOnClickListener(v -> {
-            Log.d("SHARE", "Paylaş butonuna tıklandı");
-
             String tarifBaslik = tvRecipeName.getText().toString();
             String shareLink = "https://finalprojesi-43f89.web.app/tarif/" + tarifId;
 
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.putExtra(Intent.EXTRA_TEXT, tarifBaslik + "\n" + shareLink);
             shareIntent.setType("text/plain");
             startActivity(Intent.createChooser(shareIntent, "Tarifi paylaş"));
         });
 
+        // ✅ Firestore’dan veriyi çek
+        firestore.collection("tarifler").document(tarifId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Tarif tarif = documentSnapshot.toObject(Tarif.class);
+                        if (tarif != null) {
+                            tvRecipeName.setText(tarif.getAd());
+                            tvCategory.setText(tarif.getKategori());
+                            tvIngredients.setText(tarif.getMalzemeler());
+                            tvSteps.setText(tarif.getYapilisAdimlari());
+                            tvHazirlikSure.setText(tarif.getHazirlikSuresi() + " dk");
+                            tvPisirmeSure.setText(tarif.getPisirmeSuresi() + " dk");
+                            tvServisSayisi.setText(tarif.getServisSayisi());
 
+                            if (deepLinktenGeldik) {
+                                // Paylaşım veya tarayıcıdan geldiyse → URL'den yükle
+                                String imageUrl = tarif.getResimUrl();
+                                if (imageUrl != null && !imageUrl.isEmpty()) {
+                                    Glide.with(this)
+                                            .load(imageUrl)
+                                            .placeholder(R.drawable.default_resim)
+                                            .error(R.drawable.default_resim)
+                                            .into(ivRecipeImage);
+                                } else {
+                                    ivRecipeImage.setImageResource(R.drawable.default_resim);
+                                }
+                            } else {
+                                // Uygulama içindeysek → drawable’dan yükle
+                                try {
+                                    int resId = getResources().getIdentifier(
+                                            tarif.getResimId(), "drawable", getPackageName());
+                                    ivRecipeImage.setImageResource(resId);
+                                } catch (Exception e) {
+                                    ivRecipeImage.setImageResource(R.drawable.default_resim);
+                                }
+                            }
 
-
-        databaseReference.child(tarifId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Tarif tarif = snapshot.getValue(Tarif.class);
-                if (tarif != null) {
-                    tvRecipeName.setText(tarif.getAd() != null ? tarif.getAd() : "");
-                    tvCategory.setText(tarif.getKategori() != null ? tarif.getKategori() : "");
-                    tvIngredients.setText(tarif.getMalzemeler() != null ? tarif.getMalzemeler() : "");
-                    tvSteps.setText(tarif.getYapilisAdimlari() != null ? tarif.getYapilisAdimlari() : "");
-
-                    try {
-                        int resId = getResources().getIdentifier(
-                                tarif.getResimId(), "drawable", getPackageName());
-                        ivRecipeImage.setImageResource(resId);
-                    } catch (Exception e) {
-                        ivRecipeImage.setImageResource(R.drawable.default_resim);
+                        }
+                    } else {
+                        Toast.makeText(this, "Tarif bulunamadı", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
-                } else {
-                    Toast.makeText(TarifDetayActivity.this,
-                            "Tarif bulunamadı",
-                            Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Veri alınırken hata: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     finish();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(TarifDetayActivity.this,
-                        "Tarif yüklenirken hata: " + error.getMessage(),
-                        Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
+                });
     }
 
     private void checkFavoriteStatus() {

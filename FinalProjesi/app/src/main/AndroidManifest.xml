@@ -12,46 +12,48 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tarif">
-
+        <activity
+            android:name=".activities.TumTariflerActivity"
+            android:exported="false" />
         <!-- SplashActivity artık giriş noktası -->
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false" />
-        <activity android:name=".activities.ForgotPasswordActivity" android:exported="false" />
+        <activity
+            android:name=".activities.ForgotPasswordActivity"
+            android:exported="false" />
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.TarifListesiActivity" />
-        <activity android:name=".activities.KategoriActivity" />
-        <!-- Deep link ile tarif açılışı -->
-        <activity android:name=".activities.TarifDetayActivity"
+        <activity android:name=".activities.KategoriActivity" /> <!-- Deep link ile tarif açılışı -->
+        <activity
+            android:name=".activities.TarifDetayActivity"
             android:exported="true">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
-                    android:scheme="https"
                     android:host="finalprojesi-43f89.web.app"
-                    android:pathPrefix="/tarif" />
+                    android:pathPrefix="/tarif"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
-
-
         <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.EditProfileActivity" />
         <activity android:name=".activities.ChangePasswordActivity" />
         <activity android:name=".activities.SavedRecipesActivity" />
         <activity android:name=".activities.RegisterActivity" />
-
-
     </application>
 
 </manifest>

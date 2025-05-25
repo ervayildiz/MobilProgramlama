@@ -1,23 +1,30 @@
 package com.example.tarif.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.List;
 
 import com.example.tarif.R;
+import com.example.tarif.activities.TumTariflerActivity;
 import com.example.tarif.models.Kategori;
 
+import java.util.List;
+
 public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.KategoriViewHolder> {
+
     private final List<Kategori> kategoriList;
     private final OnKategoriClickListener listener;
+    private final Context context;
 
-    // Constructor
-    public KategoriAdapter(List<Kategori> kategoriList, OnKategoriClickListener listener) {
+    public KategoriAdapter(Context context, List<Kategori> kategoriList, OnKategoriClickListener listener) {
+        this.context = context;
         this.kategoriList = kategoriList;
         this.listener = listener;
     }
@@ -25,7 +32,8 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
     @NonNull
     @Override
     public KategoriViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_kategori, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_kategori, parent, false);
         return new KategoriViewHolder(view);
     }
 
@@ -35,8 +43,13 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
         holder.textViewIsim.setText(kategori.getIsim());
         holder.imageViewIkon.setImageResource(kategori.getIkonResmi());
 
-        // Kategoriye tıklama olayı
-        holder.itemView.setOnClickListener(v -> listener.onKategoriClick(kategori));
+        holder.itemView.setOnClickListener(v -> {
+            if (position == 0 && "Tüm Tarifler".equals(kategori.getIsim())) {
+                context.startActivity(new Intent(context, TumTariflerActivity.class));
+            } else {
+                listener.onKategoriClick(kategori);
+            }
+        });
     }
 
     @Override
@@ -44,7 +57,6 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
         return kategoriList.size();
     }
 
-    // ViewHolder sınıfı
     public static class KategoriViewHolder extends RecyclerView.ViewHolder {
         TextView textViewIsim;
         ImageView imageViewIkon;
@@ -56,7 +68,6 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
         }
     }
 
-    // Kategori tıklama olayı için interface
     public interface OnKategoriClickListener {
         void onKategoriClick(Kategori kategori);
     }
