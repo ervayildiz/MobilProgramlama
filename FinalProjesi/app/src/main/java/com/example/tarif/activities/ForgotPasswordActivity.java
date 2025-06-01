@@ -48,8 +48,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         firebaseAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        tvMessage.setTextColor(getResources().getColor(android.R.color.holo_green_dark)); // Yeşil renk
                         tvMessage.setText("Şifre sıfırlama e-postası gönderildi.");
                     } else {
+                        tvMessage.setTextColor(getResources().getColor(android.R.color.holo_red_dark)); // Hata için kırmızı
                         tvMessage.setText("Hata: " + task.getException().getMessage());
                     }
                 });

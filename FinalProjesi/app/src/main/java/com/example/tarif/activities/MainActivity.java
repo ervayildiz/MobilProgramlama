@@ -38,6 +38,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText edtArama;
@@ -54,9 +60,31 @@ public class MainActivity extends AppCompatActivity {
 
         TextView txtHosgeldin = findViewById(R.id.txtHosgeldin);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         if (user != null) {
+            FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(user.getUid())
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String ad = documentSnapshot.getString("name");
+                            if (ad != null && !ad.isEmpty()) {
+                                txtHosgeldin.setText("Merhaba " + ad + "!");
+                            } else {
+                                txtHosgeldin.setText("Merhaba!");
+                            }
+                        } else {
+                            txtHosgeldin.setText("Merhaba!");
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        txtHosgeldin.setText("Merhaba!");
+                    });
+        } else {
             txtHosgeldin.setText("Merhaba!");
         }
+
 
         edtArama = findViewById(R.id.edtArama);
         rvSearchResults = findViewById(R.id.rvSearchResults);

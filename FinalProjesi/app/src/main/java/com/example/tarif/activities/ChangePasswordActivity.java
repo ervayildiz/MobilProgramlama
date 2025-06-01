@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class ChangePasswordActivity extends FormActivity {
 
-    private EditText editTextOldPassword, editTextNewPassword;
+    private EditText editTextOldPassword, editTextNewPassword, editTextConfirmPassword;
     private Button btnChangePassword;
 
     @Override
@@ -23,7 +23,9 @@ public class ChangePasswordActivity extends FormActivity {
 
         editTextOldPassword = findViewById(R.id.editTextOldPassword);
         editTextNewPassword = findViewById(R.id.editTextNewPassword);
+        editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
         btnChangePassword = findViewById(R.id.btnChangePassword);
+
 
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> onBackPressed());
@@ -34,9 +36,20 @@ public class ChangePasswordActivity extends FormActivity {
     private void changePassword() {
         String oldPassword = editTextOldPassword.getText().toString().trim();
         String newPassword = editTextNewPassword.getText().toString().trim();
+        String confirmPassword = editTextConfirmPassword.getText().toString().trim();
 
         if (!isValidPassword(oldPassword) || !isValidPassword(newPassword)) {
             showError("Geçerli şifreler girin");
+            return;
+        }
+
+        if (!newPassword.equals(confirmPassword)) {
+            showError("Yeni şifreler uyuşmuyor!");
+            return;
+        }
+
+        if (oldPassword.equals(newPassword)) {
+            showError("Yeni şifre, eski şifreyle aynı olamaz!");
             return;
         }
 
@@ -46,11 +59,12 @@ public class ChangePasswordActivity extends FormActivity {
             user.reauthenticate(credential)
                     .addOnSuccessListener(aVoid -> user.updatePassword(newPassword)
                             .addOnSuccessListener(aVoid1 -> {
-                                showSuccess("Şifre değiştirildi");
+                                showSuccess("Şifre başarıyla değiştirildi.");
                                 finish();
                             })
                             .addOnFailureListener(this::handleFirebaseError))
                     .addOnFailureListener(this::handleFirebaseError);
         }
     }
+
 }

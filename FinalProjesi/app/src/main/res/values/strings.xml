@@ -84,6 +84,13 @@
     <string name="hint_surname">Soyad</string>
     <string name="save">Kaydet</string>
 
+    <!-- res/values/strings.xml -->
+    <string name="empty_email">Lütfen e-posta girin.</string>
+    <string name="invalid_email">Geçerli bir e-posta adresi girin.</string>
+    <string name="reset_email_sent">Şifre sıfırlama e-postası gönderildi.</string>
+    <string name="reset_email_error">Hata: %1$s</string>
+
+
 
     <string-array name="kategoriler">
         <item>Tümü</item>

@@ -59,7 +59,23 @@ public class LoginActivity extends FormActivity {
                     startActivity(new Intent(this, MainActivity.class));
                     finish();
                 })
-                .addOnFailureListener(this::handleFirebaseError);
+                .addOnFailureListener(e -> {
+                    String errorMsg;
+                    String errCode = e.getMessage();
+
+                    if (errCode != null && errCode.contains("password is invalid")) {
+                        errorMsg = "Hatalı şifre girdiniz. Lütfen tekrar deneyin.";
+                    } else if (errCode != null && errCode.contains("There is no user record")) {
+                        errorMsg = "Bu email adresiyle kayıtlı kullanıcı bulunamadı.";
+                    } else if (errCode != null && errCode.contains("network error")) {
+                        errorMsg = "İnternet bağlantınızı kontrol edin.";
+                    } else {
+                        errorMsg = "Giriş yapılamadı. " + e.getLocalizedMessage();
+                    }
+
+                    showError(errorMsg);
+                });
+
     }
 
     private void startMainActivity() {
